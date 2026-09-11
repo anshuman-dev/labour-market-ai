@@ -389,12 +389,12 @@
   <section class="sec hero wrap" id="sec-1" data-title="The Hypothesis">
     <p class="eyebrow"><span class="n">01</span> The Hypothesis</p>
     <h1 id="s1-question">Prices moved first.<br><em>Is India's job market next?</em></h1>
-    <p class="lede">A decade ago, economists stopped waiting for official inflation numbers and started scraping millions of online prices themselves. This page asks the same kind of question about jobs: can fast, unofficial, ground-up data (job ads, hiring disclosures, AI usage numbers) show us what AI is doing to India's labour market before the slow, official surveys do?</p>
+    <p class="lede">Ten years ago, economists began collecting millions of online prices themselves instead of waiting for official inflation numbers. This page asks a similar question about jobs: can quick, unofficial data like job ads, hiring reports, and AI usage reveal AI's impact on India's labor market before official surveys do?</p>
 
     <div class="hero-stat" id="s1-stat">
       <span class="v num" id="hero-stat-value">15×</span>
       <div class="meta">
-        <div class="l" id="hero-stat-label">how much faster Indian Claude users complete complex tasks with AI, vs. 12× globally</div>
+        <div class="l" id="hero-stat-label">how much faster Indian Claude users finish complex tasks with AI, compared to 12 times faster globally</div>
         <div class="s" id="hero-stat-source">Anthropic, India Country Brief, Feb 2026</div>
       </div>
     </div>
@@ -405,8 +405,8 @@
   <section class="sec wrap" id="sec-2" data-title="The Original Method">
     <p class="eyebrow"><span class="n">02</span> The Original Method</p>
     <h2 class="title">What was the Billion Prices Project?</h2>
-    <p class="lede" id="s2-history">Starting in 2008, Alberto Cavallo and Roberto Rigobon scraped hundreds of millions of prices from online retailers around the world, rebuilding daily inflation estimates from the ground up: no survey, no government office, no lag. <span id="s2-argentina">In 2011 the method caught Argentina's government publishing an official inflation rate roughly a third of what the scraped data actually showed, turning an academic side-project into one of the sharpest checks on state statistics of the decade.</span></p>
-    <p class="lede" id="s2-inspiration" style="margin-top:16px;">Prices were just the visible tip of something bigger, and even something that basic turned out to be worth double-checking against what a government was willing to admit. Official job numbers move slower than prices ever did, once a quarter or once a year, not daily, and are just as open to dispute. If a government's own numbers can lag or misstate something as measurable as prices, they're even more likely to be behind on something as new as AI.</p>
+    <p class="lede" id="s2-history">In 2008, Alberto Cavallo and Roberto Rigobon began collecting hundreds of millions of prices from online retailers worldwide. They built daily inflation estimates without surveys, government offices, or delays. <span id="s2-argentina">In 2011, their method revealed that Argentina's official inflation rate was about a third of what their data showed, making this academic project a key way to check government statistics.</span></p>
+    <p class="lede" id="s2-inspiration" style="margin-top:16px;">Prices were only the start, and even basic data like this was worth checking against what governments reported. Official job numbers are released much less often than price data and can also be disputed. If government numbers can lag or misstate prices, they are even more likely to be behind on something as new as AI.</p>
 
     <div class="card" style="margin-top:32px;">
       <div class="bpp-diagram">
@@ -424,7 +424,7 @@
           <text x="31" y="30" class="axis-label" fill="#ff7a45" font-size="9">BPP scraped price index</text>
         </svg>
       </div>
-      <p class="chart-note">Illustrative: the two track together until around 2010, then split, the scraped index running well above the official rate. Not the exact published series, just the shape of the known divergence.</p>
+      <p class="chart-note">For example, the two measures matched until about 2010, then separated, with the scraped index staying much higher than the official rate. This shows the general pattern, not the exact published numbers.</p>
     </div>
   </section>
 
@@ -432,7 +432,7 @@
   <section class="sec wrap" id="sec-3" data-title="Our Reframing">
     <p class="eyebrow"><span class="n">03</span> Our Reframing</p>
     <h2 class="title">The same method, aimed at labour instead of prices.</h2>
-    <p class="lede">The mechanism doesn't change: only what's being counted does.</p>
+    <p class="lede">The method stays the same; only the data being measured changes.</p>
     <div class="map3" style="margin-top:24px;">
       <div class="map-card" id="s3-original">
         <div class="h">Original (Cavallo)</div>
@@ -454,7 +454,7 @@
   <section class="sec wrap" id="sec-4" data-title="The Methodology">
     <p class="eyebrow"><span class="n">04</span> The Methodology</p>
     <h2 class="title" style="max-width:22ch;">Four steps between a hypothesis and a working index.</h2>
-    <p class="lede">This is normally the part that gets waved away with a slide that says "we'll build an index." Here's what we'd actually have to do.</p>
+    <p class="lede">Usually, this step is skipped with a simple slide saying "we'll build an index." Here is what we would actually need to do.</p>
 
     <div class="method-steps">
       <div class="method-step" id="s4-step1">
@@ -462,28 +462,28 @@
         <div>
           <h3>Fix the occupation crosswalk.</h3>
           <p>Exposure scores like AIOE were built on US task data. Pizzinelli et al. mapped them onto India using occupation codes, but that assumes a software developer's job looks the same in Bangalore as it does in Seattle, a stretch, since Indian IT work leans much more toward delivery and execution than the design-heavy roles the US data was built on.</p>
-          <div class="method-fix"><b>Our fix</b>Keep their crosswalk as a starting point, but spot-check a sample of matched occupations against real Indian job listings, and adjust wherever the task content clearly doesn't line up. IT services roles first.</div>
+          <div class="method-fix"><b>Our fix</b>Use their crosswalk as a starting point, but check a sample of matched jobs against real Indian job listings. Adjust wherever the tasks do not match, starting with IT services roles.</div>
         </div>
       </div>
       <div class="method-step" id="s4-step2">
         <div class="stepnum">2</div>
         <div>
           <h3>Build the job-ad signal.</h3>
-          <p>Pull postings every month from Naukri, LinkedIn India and Indeed India. Match each one to an occupation code by title and description. Then flag which ones mention AI skills, starting from obvious terms like "GenAI" or "prompt engineering," but expanded so we also catch postings that describe the same work without using those exact words. Track how that share moves, month by month, occupation by occupation, along with whatever salary ranges are listed.</p>
+          <p>Collect job postings every month from Naukri, LinkedIn India, and Indeed India. Match each posting to an occupation code using the title and description. Mark those that mention AI skills, starting with clear terms like "GenAI" or "prompt engineering," but also include postings that describe similar work without those exact words. Track how this share changes each month for each occupation, along with any listed salary ranges.</p>
         </div>
       </div>
       <div class="method-step" id="s4-step3">
         <div class="stepnum">3</div>
         <div>
           <h3>Make sure it's actually AI.</h3>
-          <p>We'd run this as a comparison between occupations more exposed to AI and less exposed, before and after GenAI adoption picked up in India, roughly late 2022 into 2023. But this only means anything if exposed and non-exposed occupations were tracking together <em>before</em> that point. If they weren't already moving in step, we can't credibly blame AI for what happens after. We'd also split the data by state, IT hubs vs. everywhere else, mainly to make sure we're not just picking up the 2023-24 global IT-spending slowdown and mislabeling it as an AI effect.</p>
+          <p>We would compare jobs that are more exposed to AI with those that are less exposed, before and after GenAI adoption increased in India, around late 2022 to 2023. This comparison only works if both groups were moving together <em>before</em> that point. If they were not, we cannot confidently say AI caused any changes after. We would also separate the data by state and compare IT hubs to other areas, to make sure we are not confusing the 2023-24 global IT spending slowdown with an AI effect.</p>
         </div>
       </div>
       <div class="method-step" id="s4-step4">
         <div class="stepnum">4</div>
         <div>
           <h3>Check if it's actually working.</h3>
-          <p>Compare our monthly numbers against the official ones, PLFS every quarter, CMIE every month, and see if ours moves first. That's really the whole bet here: a faster index built from job ads and hiring data should show cracks before the slow official surveys catch up, the way scraped prices once got ahead of a government's own inflation numbers. The 2025-26 IT hiring slowdown is a real, recent moment we could actually test that against.</p>
+          <p>Compare our monthly numbers to the official ones (PLFS every quarter and CMIE every month) and see if our data changes first. The main idea is that a faster index from job ads and hiring data should reveal changes before slow official surveys do, just like scraped prices once outpaced government inflation numbers. The IT hiring slowdown in 2025-26 is a recent example we could use to test this.</p>
         </div>
       </div>
     </div>
@@ -491,7 +491,7 @@
     <details class="appendix">
       <summary><span>Technical appendix: crosswalk tables, regression spec, classifier design</span><span class="plus">+</span></summary>
       <div class="appendix-body">
-        <p class="chart-note" style="margin-top:14px;">Everything below would drown the main narrative if inlined here. It's the technical spec for the build, not additional findings.</p>
+        <p class="chart-note" style="margin-top:14px;">The following details are technical specifications for building the index. Including them in the main text would distract from the main story.</p>
         <ul>
           <li><b>Crosswalk table.</b> Full NCO, ISCO and O*NET mapping for the top 30 to 40 occupations by employment share, with mismatches flagged from the audit step.</li>
           <li><b>Regression specification.</b> Functional form, fixed effects (occupation, month, state), clustering approach, and the exact parallel-trends test and plot.</li>
@@ -507,7 +507,7 @@
   <!-- ===================== SECTION 4 ===================== -->
   <section class="sec wrap" id="sec-5" data-title="The Static Picture">
     <p class="eyebrow"><span class="n">05</span> The Static Picture</p>
-    <h2 class="title">The best available map of AI exposure is already out of date.</h2>
+    <h2 class="title">The most current map of AI exposure is already outdated.</h2>
     <p class="lede">Pizzinelli, Panton, Tavares, Cazzaniga &amp; Li mapped occupational AI exposure against complementarity, meaning how much AI assists a job rather than replaces it, across countries including India.</p>
     <p class="source-tag">Source: Pizzinelli et al. (2023), IMF Working Paper 23/216</p>
 
@@ -519,11 +519,11 @@
           <svg id="quad-svg" viewBox="0 0 420 340" width="100%"></svg>
         </div>
         <div class="legend">
-          <span><span class="sw" style="background:var(--teal);"></span>High exposure, high complement: benefit</span>
-          <span><span class="sw" style="background:var(--terracotta);"></span>High exposure, low complement: risk</span>
-          <span><span class="sw" style="background:var(--ink-faint);"></span>Low exposure</span>
+          <span><span class="sw" style="background:var(--teal);"></span>High exposure and high complement means benefit</span>
+          <span><span class="sw" style="background:var(--terracotta);"></span>High exposure and low complement means risk</span>
+          <span><span class="sw" style="background:var(--ink-faint);"></span>Low exposure means less impact</span>
         </div>
-        <p class="chart-note">Illustrative occupation placements, positioned to match the paper's reported quadrant shares, not the paper's original plotted coordinates.</p>
+        <p class="chart-note">The job placements shown are examples, arranged to match the paper's reported quadrant shares, not the exact coordinates from the original chart.</p>
       </div>
 
       <div class="card" id="s5-countries">
@@ -546,18 +546,18 @@
             <div class="l">of Indian workers fall below just the 40th percentile of AI exposure globally, vs. 25% in the UK</div>
           </div>
         </div>
-        <p class="chart-note">Driven by agriculture, which alone accounts for over 30% of Indian employment and sits at the low-exposure end of nearly every occupational scale.</p>
+        <p class="chart-note">This is mainly because agriculture, which makes up over 30% of Indian jobs, is at the low-exposure end of almost every job scale.</p>
       </div>
       <div class="card" id="s5-gender">
         <div class="eyebrow" style="margin-bottom:6px;">The gender flip</div>
-        <p style="font-size:.92rem; color:var(--ink-muted); margin-bottom:14px;">India is the <em>only</em> country in the study where women show lower AI exposure than men, because women are concentrated in agriculture. Every other sampled country shows the opposite.</p>
+        <p style="font-size:.92rem; color:var(--ink-muted); margin-bottom:14px;">India is the <em>only</em> country in the study where women have lower AI exposure than men, since many women work in agriculture. In all other countries studied, women have higher AI exposure than men.</p>
         <div id="gender-chart"></div>
       </div>
     </div>
 
     <div class="card" id="s5-stale" style="margin-top:24px; border-color:rgba(193,80,58,.4);">
       <span class="badge warn">Data staleness</span>
-      <p style="margin-top:12px; font-size:.94rem; color:var(--ink-muted);">India's figures come from PLFS 2018-19, <b style="color:var(--ink);">before ChatGPT existed</b>, and were coded at a coarser 3-digit occupation level, versus 4-digit for other countries in the same study.</p>
+      <p style="margin-top:12px; font-size:.94rem; color:var(--ink-muted);">India's data comes from PLFS 2018-19, <b style="color:var(--ink);">before ChatGPT was released</b>, and uses broader 3-digit occupation codes, while other countries in the study use more detailed 4-digit codes.</p>
 
       <div class="evidence-only evidence-block">
         <span class="evidence-tag">Evidence: the full country table</span>
@@ -573,7 +573,7 @@
           </table>
         </div>
         <p class="ev-quote">"Static and in partial equilibrium, providing a snapshot view of exposure in one year."</p>
-        <p class="chart-note">That's the paper's own description of its method, and the reason this section is framed as a critique. On the ISCO coding gap: going from 4-digit to 3-digit occupation codes for India means several distinct jobs get folded into one bucket, so India's exposure scores are coarser and less precise than the other countries in the same table by construction, not just by year.</p>
+        <p class="chart-note">That is how the paper describes its own method, which is why this section is a critique. The ISCO coding gap means that using 3-digit codes for India combines several different jobs into one group, making India's exposure scores less precise than those of other countries in the table.</p>
       </div>
     </div>
   </section>
@@ -581,7 +581,7 @@
   <!-- ===================== SECTION 5 ===================== -->
   <section class="sec wrap" id="sec-6" data-title="The Dynamic Evidence">
     <p class="eyebrow"><span class="n">06</span> The Dynamic Evidence</p>
-    <h2 class="title">Job postings already show the shift the survey data can't see yet.</h2>
+    <h2 class="title">Job postings already reveal changes that surveys have not yet detected.</h2>
     <p class="lede">Copestake, Marczinek, Pople &amp; Stapleton track AI-skill demand inside the text of Indian job adverts: near-exponential growth since 2016, concentrated in IT, finance and professional services, with a negative effect on non-AI postings and top-percentile wages in high-skilled, non-routine roles.</p>
     <p class="source-tag">Source: Copestake et al., "AI and Services-Led Growth: Evidence from Indian Job Adverts" (2023, upd. 2024–25)</p>
 
@@ -589,10 +589,10 @@
       <span class="badge accent" style="position:absolute; top:20px; right:20px;">Illustrative shape</span>
       <h3 style="font-size:1.02rem; font-weight:600; font-family:var(--sans);">AI-skill demand share in Indian job postings, 2016–2021</h3>
       <svg id="line-illustrative" viewBox="0 0 560 200" width="100%" style="margin-top:14px;"></svg>
-      <p class="chart-note">Reconstructed at illustrative shape from the paper's reported trend, pending access to the raw series; the curve's steepness is indicative, not exact.</p>
+      <p class="chart-note">This chart is based on the general trend reported in the paper, not the exact data. The steepness of the curve is just an example.</p>
       <div class="evidence-only evidence-block">
         <span class="evidence-tag">Evidence: the design, in plain terms</span>
-        <p class="chart-note" style="font-size:.84rem;">The paper compares AI-skill-tagged postings against a baseline of similar non-AI postings, before and after GenAI adoption picked up, rather than just charting a raw trend line. That's an event-study and shift-share approach: it isolates how much of the change is specific to AI-tagged roles versus broader hiring trends across all postings.</p>
+        <p class="chart-note" style="font-size:.84rem;">The paper compares job postings that mention AI skills to similar postings that do not, before and after GenAI adoption increased. This event-study and shift-share method helps show how much of the change is due to AI roles, rather than general hiring trends.</p>
       </div>
     </div>
 
@@ -612,7 +612,7 @@
             <tr><td class="hl">IT sector-wide</td><td>Net headcount</td><td>~57.6 lakh (prior)</td><td>~59 lakh (FY26)</td></tr>
           </table>
         </div>
-        <p class="chart-note">These are the annual figures as filed and reported; the sourcing behind this page doesn't include quarterly breakdowns, so the toggle above can't show finer-grained movement within a year. Xpheno's own criteria for what counts as an "entry-level" posting beyond the 0-2-year experience bracket aren't detailed in the reporting this page draws from.</p>
+        <p class="chart-note">These are the annual figures as officially reported. The sources used here do not provide quarterly data, so the chart cannot show more detailed changes within a year. Xpheno's criteria for what counts as an "entry-level" job beyond the 0-2-year experience range are not explained in the reports used for this page.</p>
       </div>
     </div>
   </section>
@@ -627,7 +627,7 @@
       <div class="card" id="s7-states">
         <h3 style="font-size:1.02rem; font-weight:600; font-family:var(--sans); margin-bottom:6px;">Share of national Claude.ai usage, by state</h3>
         <div id="state-bars" style="margin-top:14px;"></div>
-        <p class="chart-note">Maharashtra, Tamil Nadu, Karnataka and Delhi together account for over half of India's total usage.</p>
+        <p class="chart-note">Maharashtra, Tamil Nadu, Karnataka, and Delhi together make up more than half of India's total usage.</p>
       </div>
       <div class="card" id="s7-global">
         <h3 style="font-size:1.02rem; font-weight:600; font-family:var(--sans); margin-bottom:16px;">Where India stands globally</h3>
@@ -666,13 +666,13 @@
               <tr><td>AI response education level</td><td class="hl">12.5 yrs (top 10% globally)</td><td>N/A</td></tr>
             </table>
           </div>
-          <p class="chart-note">Anthropic's AI Usage Index adjusts raw usage for working-age population, which is why India ranks 2nd in absolute share but 101st per capita. This brief draws on Nov 2025 usage data, published Feb 16, 2026.</p>
+          <p class="chart-note">Anthropic's AI Usage Index adjusts raw usage numbers based on the working-age population. This is why India is 2nd in total usage but 101st per person. This brief uses data from November 2025, published on February 16, 2026.</p>
         </div>
       </div>
       <div class="card" id="s7-taskmix">
         <h3 style="font-size:1.02rem; font-weight:600; font-family:var(--sans); margin-bottom:16px;">Software-related share of occupational task mix</h3>
         <div id="taskmix-bars"></div>
-        <p class="chart-note">India's 45.2% is the highest of any country Anthropic tracks.</p>
+        <p class="chart-note">India's 45.2% is the highest share among all countries tracked by Anthropic.</p>
       </div>
     </div>
   </section>
@@ -680,12 +680,12 @@
   <!-- ===================== SECTION 7 ===================== -->
   <section class="sec wrap" id="sec-8" data-title="The Canary Cohort">
     <p class="eyebrow"><span class="n">08</span> The Canary Cohort</p>
-    <h2 class="title">Young hires are where a labour effect would show up first.</h2>
+    <h2 class="title">The impact on the labor market is likely to appear first among young new hires.</h2>
     <div class="grid2" style="margin-top:32px; align-items:start;">
       <div class="card" id="s8-trend">
         <h3 style="font-size:1.02rem; font-weight:600; font-family:var(--sans); margin-bottom:6px;">Infosys: share of workforce under 30</h3>
         <svg id="infosys-trend" viewBox="0 0 380 220" width="100%" style="margin-top:10px;"></svg>
-        <p class="chart-note">Lowest share in 15 years. This cohort made up roughly two-thirds of the workforce until FY18.</p>
+        <p class="chart-note">This is the lowest share in 15 years. Until FY18, this age group made up about two-thirds of the workforce.</p>
       </div>
 
       <div class="inset" id="s8-inset">
@@ -695,11 +695,11 @@
           <div class="stat-tile"><div class="v" style="color:#8fbede;">-19%</div><div class="l">employment for 22–25 year-olds in AI-exposed occupations, vs. counterfactual, mid-2026</div></div>
           <div class="stat-tile"><div class="v" style="color:#8fbede;">-20%</div><div class="l">software developers aged 22–25, Oct 2022 peak to Jul 2025</div></div>
         </div>
-        <p class="chart-note">Effect is driven by reduced hiring, not layoffs, concentrated where AI automates rather than augments.</p>
+        <p class="chart-note">The effect comes from hiring fewer new employees, not from layoffs, and is most noticeable in jobs where AI replaces tasks instead of helping with them.</p>
         <p class="source-tag">Source: Brynjolfsson, Chandar, Chen, "Canaries in the Coal Mine?" (Stanford, rev. Aug 2026)</p>
         <div class="evidence-only evidence-block">
           <span class="evidence-tag">Evidence: automate vs. augment</span>
-          <p class="chart-note" style="font-size:.84rem;">"Automate" means the AI does the task in place of a person; "augment" means a person still does the task with AI's help. The paper's finding only shows up in automate-type roles, which is also why it shows up as fewer new hires rather than existing employees being let go: companies simply need fewer new people for tasks the software now does end to end. The two figures above (-19% and -20%) are the specific numbers reported for this page; the paper's underlying dataset covers more cohorts and occupations than are summarized here.</p>
+          <p class="chart-note" style="font-size:.84rem;">"Automate" means AI does the task instead of a person, while "augment" means a person still does the task with AI's help. The paper's findings only appear in automate-type jobs, which is why there are fewer new hires rather than layoffs. Companies need fewer new employees for tasks that software can now handle completely. The two numbers above (-19% and -20%) are the specific results reported here, but the paper's data covers more groups and jobs than shown.</p>
         </div>
       </div>
     </div>
@@ -735,7 +735,7 @@
         </div>
         <div class="evidence-only evidence-block">
           <span class="evidence-tag">Evidence: what EPFO actually publishes</span>
-          <p class="chart-note" style="font-size:.84rem;">EPFO's public releases are monthly counts of net new subscribers by industry group, at the aggregate level. There's no individual-level record and no occupation-level breakdown, so it's impossible to isolate a specific job or worker the way ADP or Statistics Denmark can. That gap is structural, not a matter of EPFO publishing less often.</p>
+          <p class="chart-note" style="font-size:.84rem;">EPFO's public data shows monthly counts of new subscribers by industry group, but only at a broad level. There are no records for individual workers or specific jobs, so we cannot identify particular roles like ADP or Statistics Denmark can. This is a structural issue, not just a matter of how often EPFO publishes data.</p>
         </div>
       </div>
     </div>
@@ -745,7 +745,7 @@
         <q>Using 25,000 workers linked to full administrative wage and hours records, we find precise null effects on earnings and hours two years post-ChatGPT (ruling out effects larger than 2%) despite widespread adoption. What moved instead was task composition and occupational mobility.</q>
         <div class="cite">Humlum &amp; Vestergaard, "Still Waters, Rapid Currents" (NBER / Rockwool, 2025–26)</div>
       </div>
-      <div class="lesson"><b>Lesson for this page</b>Don't overclaim a clean wage effect. Even in a far more data-rich country than India, one hasn't been proven yet.</div>
+      <div class="lesson"><b>Lesson for this page</b>Be careful not to claim a clear wage effect. Even in countries with much more data than India, such an effect has not been proven.</div>
       <div class="evidence-only evidence-block">
         <span class="evidence-tag">Evidence: the study design</span>
         <p class="chart-note" style="font-size:.84rem;">25,000 Danish workers, linked to Denmark's full administrative wage and hours records (not a survey), tracked for two years after ChatGPT's release. The null result rules out effects larger than plus or minus 2% on earnings and hours specifically; it doesn't rule out smaller effects, and it doesn't cover what happened to task composition or which occupations people moved into, which is exactly what the authors found moved instead.</p>
@@ -756,8 +756,8 @@
   <!-- ===================== SECTION 9 ===================== -->
   <section class="sec wrap" id="sec-10" data-title="The Live Index">
     <p class="eyebrow"><span class="n">10</span> The Live Index</p>
-    <h2 class="title">What a real-time index could look like, once the pieces above exist.</h2>
-    <p class="lede" id="s10-signals">Three synthetic sub-signals, weighted by you. This is a demonstration of the <em>method</em>, not a real, published index.</p>
+    <h2 class="title">This is an example of what a real-time index could look like once all the necessary data is available.</h2>
+    <p class="lede" id="s10-signals">There are three synthetic sub-signals, and you can adjust their weights. This is just a demonstration of the <em>method</em>, not an actual published index.</p>
 
     <div class="index-panel" style="margin-top:28px;">
       <span class="badge warn synth-tag">Synthetic demo data</span>
@@ -781,7 +781,7 @@
 
       <div class="evidence-only evidence-block">
         <span class="evidence-tag">Evidence: how this demo is built</span>
-        <p class="chart-note" style="font-size:.84rem;">No real composite index like this exists yet to point to; this is what the method would produce, not a real published series. Each of the three lines is a synthetic 24-month path: the wage signal drifts down gently, the hiring signal declines faster and accelerates in its final months, and the usage signal rises steeply, chosen to be visibly different shapes so the sliders actually change what you see. The line on the chart is just the weighted average of those three at whatever weights you've set.</p>
+        <p class="chart-note" style="font-size:.84rem;">There is no real composite index like this yet; this is just an example of what the method could produce. Each of the three lines shows a made-up 24-month trend: the wage signal drops slowly, the hiring signal falls faster and speeds up at the end, and the usage signal rises quickly. These shapes are chosen to look different so the sliders change the chart. The main line is just the weighted average of the three signals, based on the weights you choose.</p>
       </div>
     </div>
   </section>
@@ -791,9 +791,9 @@
     <p class="eyebrow"><span class="n">11</span> The Verdict</p>
     <h2 class="title" style="max-width:20ch; font-size:clamp(1.8rem,4vw,2.8rem);">The method works. The data infrastructure doesn't, yet.</h2>
     <ul class="verdict-list" id="s11-bullets">
-      <li><span><b>The method works in principle:</b> Copestake et al. already show job-ad-based tracking detects real AI labour effects inside India.</span></li>
-      <li><span><b>The signal is live and visible right now:</b> Anthropic's own India data plus TCS, Infosys and Xpheno numbers, concentrated in IT and urban India.</span></li>
-      <li><span><b>But India lacks payroll-level data infrastructure:</b> unlike the US and Denmark, so any index has to stay indirect and proxy-based, and wage-effect claims should stay cautious.</span></li>
+      <li><span><b>The method works in theory:</b> Copestake and others have already shown that tracking job ads can detect real AI labor effects in India.</span></li>
+      <li><span><b>The signal is active and visible now:</b> based on Anthropic's India data and numbers from TCS, Infosys, and Xpheno, mainly in IT and urban areas.</span></li>
+      <li><span><b>But India does not have payroll-level data infrastructure like the US and Denmark:</b> any index must rely on indirect and proxy data, and claims about wage effects should be made carefully.</span></li>
     </ul>
   </section>
 
@@ -884,7 +884,7 @@
 
   /* ---------- hero rotating stat ---------- */
   var heroStats = [
-    { v:'15×', l:'how much faster Indian Claude users complete complex tasks with AI, vs. 12× globally', s:'Anthropic, India Country Brief, Feb 2026' },
+    { v:'15×', l:'how much faster Indian Claude users finish complex tasks with AI, compared to 12 times faster globally', s:'Anthropic, India Country Brief, Feb 2026' },
     { v:'23,460', l:'net jobs cut at TCS in FY26, its largest single-year reduction ever', s:'TCS FY26 filings' },
     { v:'50.7%', l:"share of Infosys's workforce under 30, the lowest in 15 years", s:'Infosys FY26 filings' }
   ];
@@ -1055,7 +1055,7 @@
 
   /* ---------- Section 5B company toggle ---------- */
   var companies = {
-    tcs: { name:'TCS', metric:'Headcount', priorLabel:'FY25', currentLabel:'FY26', prior:607460, current:584000, fmt:function(v){return v.toLocaleString('en-IN');}, note:'Net cut of 23,460 employees, TCS\'s largest single-year reduction ever, including roughly 12,000 roles explicitly tied to AI-driven restructuring.' },
+    tcs: { name:'TCS', metric:'Headcount', priorLabel:'FY25', currentLabel:'FY26', prior:607460, current:584000, fmt:function(v){return v.toLocaleString('en-IN');}, note:'There was a net reduction of 23,460 employees, which is TCS\'s largest single-year cut ever. About 12,000 of these jobs were directly linked to AI-driven restructuring.' },
     infosys: { name:'Infosys', metric:'Workforce under 30', priorLabel:'FY25', currentLabel:'FY26', prior:53, current:50.7, fmt:function(v){return v+'%';}, note:'Lowest share in 15 years. This cohort was roughly two-thirds of the workforce until FY18. Infosys still met its FY26 fresher-hiring target of 20,000; AI-skill engineers now command pay up to ₹21 lakh/yr.' },
     reliance: { name:'Reliance', metric:'New hires', priorLabel:'FY25', currentLabel:'FY26', prior:190000, current:100000, fmt:function(v){return '~'+v.toLocaleString('en-IN');}, note:'A cut of roughly 90,000 fewer new hires year over year.' },
     xpheno: { name:'Xpheno', metric:'Entry-level tech openings (0–2 yrs)', priorLabel:'May 2025', currentLabel:'May 2026', prior:13000, current:10000, fmt:function(v){return v.toLocaleString('en-IN');}, note:'A 44% year-over-year decline in entry-level tech hiring.' },
