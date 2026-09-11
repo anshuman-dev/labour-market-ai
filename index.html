@@ -125,7 +125,10 @@
   .map-card .h{ font-family:var(--mono); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:14px; }
   .map-row{ padding-block:12px; border-top:1px solid var(--line); font-size:.94rem; }
   .map-row:first-of-type{ border-top:none; }
+  .map-row-label{ display:block; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:5px; }
+  .map-row-gloss{ font-size:.8rem; color:var(--ink-faint); margin-top:7px; }
   .map-card.ours{ border-color:rgba(255,122,69,.4); }
+  .map-close{ margin-top:22px; font-size:.98rem; color:var(--ink-muted); }
   .map-mid{ display:flex; align-items:center; justify-content:center; font-family:var(--mono); color:var(--accent); font-size:1.3rem; }
   @media (max-width:820px){ .map-mid{ transform:rotate(90deg); padding-block:6px; } }
   .map3{ display:grid; grid-template-columns:1fr auto 1fr; gap:18px; align-items:stretch; }
@@ -438,18 +441,24 @@
     <div class="map3" style="margin-top:24px;">
       <div class="map-card" id="s3-original">
         <div class="h">Original (Cavallo)</div>
-        <div class="map-row">Millions of scraped online prices</div>
-        <div class="map-row">→ real-time inflation index</div>
-        <div class="map-row">Validated against official (sometimes manipulated) CPI</div>
+        <div class="map-row"><span class="map-row-label">Signal</span>Millions of scraped online prices</div>
+        <div class="map-row"><span class="map-row-label">Frequency</span>Daily</div>
+        <div class="map-row"><span class="map-row-label">Output</span>→ real-time inflation index</div>
+        <div class="map-row"><span class="map-row-label">Validated against</span>Official CPI (sometimes manipulated)</div>
       </div>
       <div class="map-mid">→</div>
       <div class="map-card ours" id="s3-ours">
         <div class="h" style="color:var(--accent);">Ours</div>
-        <div class="map-row">Job ad text, hiring &amp; headcount disclosures, AI usage data, wage bands</div>
-        <div class="map-row">→ real-time AI labour-impact index</div>
-        <div class="map-row">Validated against PLFS / CMIE (slow, contested employment data)</div>
+        <div class="map-row">
+          <span class="map-row-label">Signal</span>Job ad text, hiring &amp; headcount disclosures, AI usage data, wage bands
+          <p class="map-row-gloss">Four different ways of watching the same thing: whether AI is changing who gets hired, and what they get paid.</p>
+        </div>
+        <div class="map-row"><span class="map-row-label">Frequency</span>Monthly, realistically: job ads and hiring disclosures don't update daily the way prices do</div>
+        <div class="map-row"><span class="map-row-label">Output</span>→ real-time AI labour-impact index</div>
+        <div class="map-row"><span class="map-row-label">Validated against</span>PLFS / CMIE (slow, contested employment data)</div>
       </div>
     </div>
+    <p class="map-close">That's the bet the rest of this page tries to test.</p>
   </section>
 
   <!-- ===================== SECTION 3.5 ===================== -->
