@@ -33,6 +33,35 @@ For handoff to Claude Code. This is a spec, not final copy. Every section lists 
 
 ---
 
+## Section 3.5: How we'd actually build this (methodology)
+**Placement:** immediately after Section 3 (reframing), before the Pizzinelli critique. Visible on the main page in full; this is not a teaser, it needs to stand on its own as a real methodology. A separate, deeper "how we'd build this" panel holds the technical appendix (spec below).
+
+### Visible on main page: four concrete steps
+
+**1. Fixing the occupation crosswalk.**
+Exposure scores like AIOE are built on US O*NET task data. Pizzinelli et al. mapped these onto India via ISCO-08 codes, but this assumes a "software developer" in the US and in India involve the same tasks, which is shaky given India's IT sector is disproportionately delivery/execution-heavy (offshore services model) rather than the design/architecture-heavy mix implied by US task data.
+**Our fix:** use the same crosswalk as a starting point, but spot-audit a sample of matched occupations against real Indian job descriptions to check whether task content genuinely matches; flag and adjust the likely mismatches, starting with IT services roles.
+
+**2. Building the job-ad signal.**
+Pull postings monthly from Naukri, LinkedIn India, and Indeed India. Tag each posting by occupation (title + description matched to NCO codes). Classify AI-skill demand using a keyword-seeded, embedding-expanded classifier; seed terms like "GenAI," "LLM," "prompt engineering," "Copilot," expanded via semantic similarity so postings describing AI work without our exact keywords aren't missed. Track: share of AI-tagged postings and listed salary bands, per occupation, per month.
+
+**3. Proving causation, not coincidence.**
+Difference-in-differences design: occupation × month as the unit, AI exposure score as treatment intensity, event time anchored to GenAI's India adoption inflection (~late 2022/2023). Outcomes: posting growth, wage growth, hiring volume. Critical check: exposed and non-exposed occupations must show parallel trends *before* 2023, otherwise the result is confounded. Add a geography split (IT-hub states vs. non-IT states) as a triple-difference check, specifically to rule out the 2023-24 global IT-spending slowdown as the real driver instead of AI.
+
+**4. Checking if it's actually working.**
+Compare the monthly index against PLFS (quarterly) and CMIE (monthly) official employment data. The direct test of the whole hypothesis: does the faster index *lead* the slow official numbers, the way BPP led CPI, especially around known inflection points like the 2025-26 IT hiring slowdown.
+
+### Expandable panel / linked deep-dive page: spec
+Content that would drown the main narrative if inlined, but should exist one click away:
+- Full NCO ↔ ISCO ↔ O*NET crosswalk table for the top 30-40 occupations by employment share, with flagged mismatches from the audit step.
+- Full regression specification: functional form, fixed effects (occupation, month, state), clustering approach, and the exact parallel-trends test/plot.
+- Classifier technical design: embedding model choice, seed-term list, validation approach (precision/recall on a hand-labeled sample), and how the classifier handles Hindi/regional-language postings.
+- Sensitivity checks: re-running the whole pipeline with Eloundou et al.'s GPT-exposure scores instead of AIOE, to see if conclusions hold under a different exposure measure.
+- Scraping architecture notes and ToS/legal considerations for each platform (Naukri, LinkedIn, Indeed).
+- Sample-size and statistical power discussion: how many postings/months are needed before the DiD estimates are reliable.
+
+---
+
 ## Section 4: The static picture (critique of Pizzinelli et al., IMF WP 23/216)
 **Source:** Pizzinelli, Panton, Tavares, Cazzaniga & Li (2023), IMF Working Paper 23/216.
 
