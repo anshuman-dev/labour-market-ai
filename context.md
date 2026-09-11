@@ -220,7 +220,7 @@ Content that would drown the main narrative if inlined, but should exist one cli
 | Infosys | Fresher hires FY26 | 20,000 (target met) |
 | Infosys | AI-skill engineer pay | Up to ₹21 lakh/yr, several times standard fresher package |
 | Reliance | New hires FY26 vs FY25 | ~1 lakh+ (down from 1.9 lakh in FY25, a cut of ~90,000) |
-| Xpheno | Entry-level tech openings (0-2 yrs) | 10,000 (May 2026) vs 13,000 (May 2025), 44% YoY decline |
+| Xpheno | Entry-level tech openings (0-2 yrs) | 10,000 (May 2026) vs 13,000 (May 2025), a 23% YoY decline |
 | Sector-wide | Net industry headcount | +~1.4 lakh (to ~59 lakh professionals) despite Big-4 cuts; compositional shift, not aggregate collapse |
 
 ---
