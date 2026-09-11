@@ -19,6 +19,9 @@
     color-scheme: dark;
   }
   *{box-sizing:border-box;}
+  html{ scroll-behavior:smooth; }
+  [id]{ scroll-margin-top:90px; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
   body{
     background:
       radial-gradient(1100px 620px at 82% -6%, rgba(255,122,69,.10), transparent 60%),
@@ -43,7 +46,9 @@
 
   /* ---------- top bar ---------- */
   .topbar{ position:sticky; top:0; z-index:40; background:rgba(28,14,6,.86); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
-  .topbar-inner{ max-width:1180px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .topbar-inner{ max-width:1180px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; row-gap:8px; }
+  @media (max-width:480px){ .topbar-inner{ padding:12px 16px; } }
+  @media (max-width:420px){ .nav-trigger-label{ display:none; } }
   .wordmark{ font-family:var(--serif); font-size:1.05rem; letter-spacing:.01em; }
   .wordmark b{ font-weight:600; }
   .wordmark .dot{ color:var(--accent); }
@@ -207,12 +212,173 @@
   .src-list li{ list-style:none; display:flex; gap:12px; }
   .src-list .i{ font-family:var(--mono); color:var(--ink-faint); flex:none; }
   .credit{ margin-top:36px; font-family:var(--mono); font-size:.72rem; color:var(--ink-faint); }
+
+  /* ---------- layout shell (sidenav + main column) ---------- */
+  .layout{ display:block; }
+  .main-col{ min-width:0; }
+  @media (min-width:1400px){
+    .layout{ display:flex; align-items:flex-start; }
+    .main-col{ flex:1; }
+  }
+
+  /* ---------- side navigation ---------- */
+  .sidenav{ display:none; }
+  .sidenav.drawer-open{
+    display:block; position:fixed; inset:0; z-index:100; background:var(--bg);
+    overflow-y:auto; padding:22px 22px 40px;
+  }
+  @media (min-width:1400px){
+    .sidenav, .sidenav.drawer-open{
+      display:block; position:sticky; inset:auto; top:0; height:100vh; overflow-y:auto;
+      width:266px; flex:none; background:transparent; border-right:1px solid var(--line);
+      padding:24px 14px 24px 24px;
+    }
+  }
+  .sidenav-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+  .sidenav-head .wordmark{ font-size:1rem; }
+  .nav-close{ background:none; border:1px solid var(--line-strong); color:var(--ink-muted); width:30px; height:30px; cursor:pointer; font-size:1rem; line-height:1; }
+  @media (min-width:1400px){ .nav-close{ display:none; } }
+  .nav-tree{ list-style:none; margin:0; padding:0; }
+  .nav-top{ border-top:1px solid var(--line); padding-block:11px; }
+  .nav-top:first-child{ border-top:none; }
+  .nav-top-link{ display:flex; align-items:baseline; gap:9px; text-decoration:none; color:var(--ink); font-family:var(--sans); font-size:.9rem; font-weight:500; }
+  .nav-top-link:hover{ color:var(--accent); }
+  .nav-top.is-active > .nav-top-link{ color:var(--accent); }
+  .nav-num{ font-family:var(--mono); font-size:.68rem; color:var(--ink-faint); flex:none; }
+  .nav-top.is-active .nav-num{ color:var(--accent); }
+  .nav-sub{ list-style:none; margin:8px 0 0; padding-left:29px; display:flex; flex-direction:column; gap:7px; }
+  .nav-sub a{ text-decoration:none; color:var(--ink-faint); font-size:.8rem; line-height:1.35; display:block; }
+  .nav-sub a:hover{ color:var(--accent); }
+  .nav-trigger{ display:inline-flex; align-items:center; gap:7px; font-family:var(--mono); font-size:.72rem; color:var(--ink-muted); background:none; border:1px solid var(--line-strong); padding:6px 10px; cursor:pointer; }
+  .nav-trigger:hover{ border-color:var(--accent); color:var(--accent); }
+  @media (min-width:1400px){ .nav-trigger{ display:none; } }
+
+  /* ---------- story / evidence toggle ---------- */
+  .mode-toggle{ display:inline-flex; border:1px solid var(--line-strong); }
+  .mode-toggle button{ font-family:var(--mono); font-size:.7rem; letter-spacing:.04em; text-transform:uppercase; padding:6px 12px; background:none; border:none; color:var(--ink-muted); cursor:pointer; }
+  .mode-toggle button.is-active{ background:var(--accent); color:#1a0c04; font-weight:600; }
+  .evidence-only{ display:none; }
+  body.mode-evidence .evidence-only{ display:block; }
+  body.mode-evidence .story-only{ display:none; }
+  .evidence-block{ margin-top:16px; padding-top:16px; border-top:1px dashed var(--line-strong); }
+  .evidence-tag{ font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; text-transform:uppercase; color:#8fbede; margin-bottom:10px; display:block; }
+  .ev-table{ font-size:.84rem; }
+  .ev-table th, .ev-table td{ padding:8px 10px; }
+  .ev-quote{ font-family:var(--serif); font-style:italic; font-size:.98rem; color:var(--ink); border-left:2px solid var(--neutral-mark); padding-left:14px; margin:12px 0; }
 </style>
 
+<div class="layout">
+<nav class="sidenav" id="sidenav">
+  <div class="sidenav-head">
+    <span style="font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint);">Contents</span>
+    <button class="nav-close" id="nav-close" aria-label="Close contents">&times;</button>
+  </div>
+  <ol class="nav-tree">
+    <li class="nav-top" data-target="sec-1">
+      <a href="#sec-1" class="nav-top-link"><span class="nav-num">01</span><span>The Hypothesis</span></a>
+      <ul class="nav-sub">
+        <li><a href="#s1-question">The question we're asking</a></li>
+        <li><a href="#s1-stat">The stat that opens it</a></li>
+      </ul>
+    </li>
+    <li class="nav-top" data-target="sec-2">
+      <a href="#sec-2" class="nav-top-link"><span class="nav-num">02</span><span>The Original Method</span></a>
+      <ul class="nav-sub">
+        <li><a href="#s2-history">How Cavallo built the price index</a></li>
+        <li><a href="#s2-argentina">The Argentina catch</a></li>
+        <li><a href="#s2-inspiration">Why this is our inspiration</a></li>
+      </ul>
+    </li>
+    <li class="nav-top" data-target="sec-3">
+      <a href="#sec-3" class="nav-top-link"><span class="nav-num">03</span><span>Our Reframing</span></a>
+      <ul class="nav-sub">
+        <li><a href="#s3-original">The original mapping: prices to inflation</a></li>
+        <li><a href="#s3-ours">Our mapping: labour signals to AI impact</a></li>
+      </ul>
+    </li>
+    <li class="nav-top" data-target="sec-4">
+      <a href="#sec-4" class="nav-top-link"><span class="nav-num">04</span><span>The Methodology</span></a>
+      <ul class="nav-sub">
+        <li><a href="#s4-step1">Step 1: fixing the occupation crosswalk</a></li>
+        <li><a href="#s4-step2">Step 2: building the job-ad signal</a></li>
+        <li><a href="#s4-step3">Step 3: making sure it's actually AI</a></li>
+        <li><a href="#s4-step4">Step 4: checking against official data</a></li>
+      </ul>
+    </li>
+    <li class="nav-top" data-target="sec-5">
+      <a href="#sec-5" class="nav-top-link"><span class="nav-num">05</span><span>The Static Picture</span></a>
+      <ul class="nav-sub">
+        <li><a href="#s5-quadrant">The exposure quadrant, explained</a></li>
+        <li><a href="#s5-countries">India vs. five other countries</a></li>
+        <li><a href="#s5-seventy">70% below the 40th percentile</a></li>
+        <li><a href="#s5-gender">The gender flip</a></li>
+        <li><a href="#s5-stale">Why the data is stale</a></li>
+      </ul>
+    </li>
+    <li class="nav-top" data-target="sec-6">
+      <a href="#sec-6" class="nav-top-link"><span class="nav-num">06</span><span>The Dynamic Evidence</span></a>
+      <ul class="nav-sub">
+        <li><a href="#s6-copestake">Copestake's job-ad findings</a></li>
+        <li><a href="#s6-companies" data-company="tcs">TCS's headcount cut</a></li>
+        <li><a href="#s6-companies" data-company="infosys">Infosys's under-30 share</a></li>
+        <li><a href="#s6-companies" data-company="xpheno">Xpheno's entry-level hiring drop</a></li>
+        <li><a href="#s6-companies" data-company="reliance">Reliance's hiring pullback</a></li>
+        <li><a href="#s6-companies" data-company="sector">The sector-wide picture</a></li>
+      </ul>
+    </li>
+    <li class="nav-top" data-target="sec-7">
+      <a href="#sec-7" class="nav-top-link"><span class="nav-num">07</span><span>The Live Pulse</span></a>
+      <ul class="nav-sub">
+        <li><a href="#s7-states">Usage by state, mapped</a></li>
+        <li><a href="#s7-global">Where India stands globally</a></li>
+        <li><a href="#s7-radar">India vs. global: the five primitives</a></li>
+        <li><a href="#s7-taskmix">Software's share of the task mix</a></li>
+      </ul>
+    </li>
+    <li class="nav-top" data-target="sec-8">
+      <a href="#sec-8" class="nav-top-link"><span class="nav-num">08</span><span>The Canary Cohort</span></a>
+      <ul class="nav-sub">
+        <li><a href="#s8-trend">Infosys's under-30 trend, year by year</a></li>
+        <li><a href="#s8-inset">The US reference: Brynjolfsson's findings</a></li>
+      </ul>
+    </li>
+    <li class="nav-top" data-target="sec-9">
+      <a href="#sec-9" class="nav-top-link"><span class="nav-num">09</span><span>What We Can't See</span></a>
+      <ul class="nav-sub">
+        <li><a href="#s9-iceberg">The iceberg</a></li>
+        <li><a href="#s9-checklist">The data-infrastructure checklist</a></li>
+        <li><a href="#s9-humlum">Humlum & Vestergaard's null result</a></li>
+      </ul>
+    </li>
+    <li class="nav-top" data-target="sec-10">
+      <a href="#sec-10" class="nav-top-link"><span class="nav-num">10</span><span>The Live Index</span></a>
+      <ul class="nav-sub">
+        <li><a href="#s10-signals">The three signals, explained</a></li>
+        <li><a href="#s10-sliders">Try it: reweight the sliders</a></li>
+      </ul>
+    </li>
+    <li class="nav-top" data-target="sec-11">
+      <a href="#sec-11" class="nav-top-link"><span class="nav-num">11</span><span>The Verdict</span></a>
+      <ul class="nav-sub">
+        <li><a href="#s11-bullets">The three-bullet closing case</a></li>
+      </ul>
+    </li>
+  </ol>
+</nav>
+<div class="main-col">
 <header class="topbar">
   <div class="topbar-inner">
-    <span class="wordmark"><b>billion</b>·jobs<span class="dot">.</span></span>
-    <span class="topbar-meta"><span id="section-counter">00 / 10</span></span>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <button class="nav-trigger" id="nav-trigger" aria-label="Open contents" aria-expanded="false">&#9776; <span class="nav-trigger-label">Contents</span></button>
+      <span class="wordmark"><b>billion</b>·jobs<span class="dot">.</span></span>
+    </div>
+    <span class="topbar-meta">
+      <span class="mode-toggle" id="mode-toggle">
+        <button type="button" class="is-active" data-mode="story">Story</button>
+        <button type="button" data-mode="evidence">Evidence</button>
+      </span>
+      <span id="section-counter">00 / 11</span>
+    </span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
 </header>
@@ -222,10 +388,10 @@
   <!-- ===================== HERO ===================== -->
   <section class="sec hero wrap" id="sec-1" data-title="The Hypothesis">
     <p class="eyebrow"><span class="n">01</span> The Hypothesis</p>
-    <h1>Prices moved first.<br><em>Is India's job market next?</em></h1>
+    <h1 id="s1-question">Prices moved first.<br><em>Is India's job market next?</em></h1>
     <p class="lede">A decade ago, economists stopped waiting for official inflation numbers and started scraping millions of online prices themselves. This page asks the same kind of question about jobs: can fast, unofficial, ground-up data (job ads, hiring disclosures, AI usage numbers) show us what AI is doing to India's labour market before the slow, official surveys do?</p>
 
-    <div class="hero-stat">
+    <div class="hero-stat" id="s1-stat">
       <span class="v num" id="hero-stat-value">15×</span>
       <div class="meta">
         <div class="l" id="hero-stat-label">how much faster Indian Claude users complete complex tasks with AI, vs. 12× globally</div>
@@ -239,8 +405,8 @@
   <section class="sec wrap" id="sec-2" data-title="The Original Method">
     <p class="eyebrow"><span class="n">02</span> The Original Method</p>
     <h2 class="title">What was the Billion Prices Project?</h2>
-    <p class="lede">Starting in 2008, Alberto Cavallo and Roberto Rigobon scraped hundreds of millions of prices from online retailers around the world, rebuilding daily inflation estimates from the ground up: no survey, no government office, no lag. In 2011 the method caught Argentina's government publishing an official inflation rate roughly a third of what the scraped data actually showed, turning an academic side-project into one of the sharpest checks on state statistics of the decade.</p>
-    <p class="lede" style="margin-top:16px;">Prices were just the visible tip of something bigger, and even something that basic turned out to be worth double-checking against what a government was willing to admit. Official job numbers move slower than prices ever did, once a quarter or once a year, not daily, and are just as open to dispute. If a government's own numbers can lag or misstate something as measurable as prices, they're even more likely to be behind on something as new as AI.</p>
+    <p class="lede" id="s2-history">Starting in 2008, Alberto Cavallo and Roberto Rigobon scraped hundreds of millions of prices from online retailers around the world, rebuilding daily inflation estimates from the ground up: no survey, no government office, no lag. <span id="s2-argentina">In 2011 the method caught Argentina's government publishing an official inflation rate roughly a third of what the scraped data actually showed, turning an academic side-project into one of the sharpest checks on state statistics of the decade.</span></p>
+    <p class="lede" id="s2-inspiration" style="margin-top:16px;">Prices were just the visible tip of something bigger, and even something that basic turned out to be worth double-checking against what a government was willing to admit. Official job numbers move slower than prices ever did, once a quarter or once a year, not daily, and are just as open to dispute. If a government's own numbers can lag or misstate something as measurable as prices, they're even more likely to be behind on something as new as AI.</p>
 
     <div class="card" style="margin-top:32px;">
       <div class="bpp-diagram">
@@ -268,14 +434,14 @@
     <h2 class="title">The same method, aimed at labour instead of prices.</h2>
     <p class="lede">The mechanism doesn't change: only what's being counted does.</p>
     <div class="map3" style="margin-top:24px;">
-      <div class="map-card">
+      <div class="map-card" id="s3-original">
         <div class="h">Original (Cavallo)</div>
         <div class="map-row">Millions of scraped online prices</div>
         <div class="map-row">→ real-time inflation index</div>
         <div class="map-row">Validated against official (sometimes manipulated) CPI</div>
       </div>
       <div class="map-mid">→</div>
-      <div class="map-card ours">
+      <div class="map-card ours" id="s3-ours">
         <div class="h" style="color:var(--accent);">Ours</div>
         <div class="map-row">Job ad text, hiring &amp; headcount disclosures, AI usage data, wage bands</div>
         <div class="map-row">→ real-time AI labour-impact index</div>
@@ -291,7 +457,7 @@
     <p class="lede">This is normally the part that gets waved away with a slide that says "we'll build an index." Here's what we'd actually have to do.</p>
 
     <div class="method-steps">
-      <div class="method-step">
+      <div class="method-step" id="s4-step1">
         <div class="stepnum">1</div>
         <div>
           <h3>Fix the occupation crosswalk.</h3>
@@ -299,21 +465,21 @@
           <div class="method-fix"><b>Our fix</b>Keep their crosswalk as a starting point, but spot-check a sample of matched occupations against real Indian job listings, and adjust wherever the task content clearly doesn't line up. IT services roles first.</div>
         </div>
       </div>
-      <div class="method-step">
+      <div class="method-step" id="s4-step2">
         <div class="stepnum">2</div>
         <div>
           <h3>Build the job-ad signal.</h3>
           <p>Pull postings every month from Naukri, LinkedIn India and Indeed India. Match each one to an occupation code by title and description. Then flag which ones mention AI skills, starting from obvious terms like "GenAI" or "prompt engineering," but expanded so we also catch postings that describe the same work without using those exact words. Track how that share moves, month by month, occupation by occupation, along with whatever salary ranges are listed.</p>
         </div>
       </div>
-      <div class="method-step">
+      <div class="method-step" id="s4-step3">
         <div class="stepnum">3</div>
         <div>
           <h3>Make sure it's actually AI.</h3>
           <p>We'd run this as a comparison between occupations more exposed to AI and less exposed, before and after GenAI adoption picked up in India, roughly late 2022 into 2023. But this only means anything if exposed and non-exposed occupations were tracking together <em>before</em> that point. If they weren't already moving in step, we can't credibly blame AI for what happens after. We'd also split the data by state, IT hubs vs. everywhere else, mainly to make sure we're not just picking up the 2023-24 global IT-spending slowdown and mislabeling it as an AI effect.</p>
         </div>
       </div>
-      <div class="method-step">
+      <div class="method-step" id="s4-step4">
         <div class="stepnum">4</div>
         <div>
           <h3>Check if it's actually working.</h3>
@@ -346,7 +512,7 @@
     <p class="source-tag">Source: Pizzinelli et al. (2023), IMF Working Paper 23/216</p>
 
     <div class="grid2" style="margin-top:36px;">
-      <div class="card">
+      <div class="card" id="s5-quadrant">
         <div class="eyebrow" style="margin-bottom:6px;">Chart A</div>
         <h3 style="font-size:1.05rem; font-weight:600; font-family:var(--sans); margin-bottom:4px;">AI exposure vs. complementarity, by occupation</h3>
         <div class="quad-wrap">
@@ -360,7 +526,7 @@
         <p class="chart-note">Illustrative occupation placements, positioned to match the paper's reported quadrant shares, not the paper's original plotted coordinates.</p>
       </div>
 
-      <div class="card">
+      <div class="card" id="s5-countries">
         <div class="eyebrow" style="margin-bottom:6px;">Chart B</div>
         <h3 style="font-size:1.05rem; font-weight:600; font-family:var(--sans); margin-bottom:14px;">Share of workforce in high-exposure occupations</h3>
         <div id="country-bars"></div>
@@ -373,7 +539,7 @@
     </div>
 
     <div class="grid2" style="margin-top:24px;">
-      <div class="card">
+      <div class="card" id="s5-seventy">
         <div class="stat-row">
           <div class="stat-tile">
             <div class="v"><span class="countup" data-target="70" data-suffix="%">0%</span></div>
@@ -382,16 +548,33 @@
         </div>
         <p class="chart-note">Driven by agriculture, which alone accounts for over 30% of Indian employment and sits at the low-exposure end of nearly every occupational scale.</p>
       </div>
-      <div class="card">
+      <div class="card" id="s5-gender">
         <div class="eyebrow" style="margin-bottom:6px;">The gender flip</div>
         <p style="font-size:.92rem; color:var(--ink-muted); margin-bottom:14px;">India is the <em>only</em> country in the study where women show lower AI exposure than men, because women are concentrated in agriculture. Every other sampled country shows the opposite.</p>
         <div id="gender-chart"></div>
       </div>
     </div>
 
-    <div class="card" style="margin-top:24px; border-color:rgba(193,80,58,.4);">
+    <div class="card" id="s5-stale" style="margin-top:24px; border-color:rgba(193,80,58,.4);">
       <span class="badge warn">Data staleness</span>
       <p style="margin-top:12px; font-size:.94rem; color:var(--ink-muted);">India's figures come from PLFS 2018-19, <b style="color:var(--ink);">before ChatGPT existed</b>, and were coded at a coarser 3-digit occupation level, versus 4-digit for other countries in the same study.</p>
+
+      <div class="evidence-only evidence-block">
+        <span class="evidence-tag">Evidence: the full country table</span>
+        <div class="tbl-wrap">
+          <table class="ev-table">
+            <tr><th>Country</th><th>Total high-exposure</th><th>Benefit (high complement)</th><th>Risk (low complement)</th></tr>
+            <tr><td class="hl">India</td><td>26%</td><td>14%</td><td>12%</td></tr>
+            <tr><td>Brazil</td><td>~40%</td><td>~20%</td><td>~20%</td></tr>
+            <tr><td>Colombia</td><td>~40%</td><td>~20%</td><td>~20%</td></tr>
+            <tr><td>South Africa</td><td>~40%</td><td>~20%</td><td>~20%</td></tr>
+            <tr><td>US</td><td>79.5% (summed)</td><td>49.8%</td><td>29.7%</td></tr>
+            <tr><td>UK</td><td>83.9% (summed)</td><td>51.9%</td><td>32%</td></tr>
+          </table>
+        </div>
+        <p class="ev-quote">"Static and in partial equilibrium, providing a snapshot view of exposure in one year."</p>
+        <p class="chart-note">That's the paper's own description of its method, and the reason this section is framed as a critique. On the ISCO coding gap: going from 4-digit to 3-digit occupation codes for India means several distinct jobs get folded into one bucket, so India's exposure scores are coarser and less precise than the other countries in the same table by construction, not just by year.</p>
+      </div>
     </div>
   </section>
 
@@ -402,17 +585,35 @@
     <p class="lede">Copestake, Marczinek, Pople &amp; Stapleton track AI-skill demand inside the text of Indian job adverts: near-exponential growth since 2016, concentrated in IT, finance and professional services, with a negative effect on non-AI postings and top-percentile wages in high-skilled, non-routine roles.</p>
     <p class="source-tag">Source: Copestake et al., "AI and Services-Led Growth: Evidence from Indian Job Adverts" (2023, upd. 2024–25)</p>
 
-    <div class="card" style="margin-top:28px; position:relative;">
+    <div class="card" id="s6-copestake" style="margin-top:28px; position:relative;">
       <span class="badge accent" style="position:absolute; top:20px; right:20px;">Illustrative shape</span>
       <h3 style="font-size:1.02rem; font-weight:600; font-family:var(--sans);">AI-skill demand share in Indian job postings, 2016–2021</h3>
       <svg id="line-illustrative" viewBox="0 0 560 200" width="100%" style="margin-top:14px;"></svg>
       <p class="chart-note">Reconstructed at illustrative shape from the paper's reported trend, pending access to the raw series; the curve's steepness is indicative, not exact.</p>
+      <div class="evidence-only evidence-block">
+        <span class="evidence-tag">Evidence: the design, in plain terms</span>
+        <p class="chart-note" style="font-size:.84rem;">The paper compares AI-skill-tagged postings against a baseline of similar non-AI postings, before and after GenAI adoption picked up, rather than just charting a raw trend line. That's an event-study and shift-share approach: it isolates how much of the change is specific to AI-tagged roles versus broader hiring trends across all postings.</p>
+      </div>
     </div>
 
-    <div class="card" style="margin-top:24px;">
+    <div class="card" id="s6-companies" style="margin-top:24px;">
       <h3 style="font-size:1.02rem; font-weight:600; font-family:var(--sans); margin-bottom:16px;">Company-level real numbers</h3>
       <div class="toggle-row" id="company-toggle"></div>
       <div class="company-panel" id="company-panel"></div>
+      <div class="evidence-only evidence-block">
+        <span class="evidence-tag">Evidence: the full annual figures</span>
+        <div class="tbl-wrap">
+          <table class="ev-table">
+            <tr><th>Company</th><th>Metric</th><th>Prior period</th><th>Current period</th></tr>
+            <tr><td class="hl">TCS</td><td>Headcount</td><td>607,460 (FY25)</td><td>584,000 (FY26)</td></tr>
+            <tr><td class="hl">Infosys</td><td>Under-30 share</td><td>53% (FY25)</td><td>50.7% (FY26)</td></tr>
+            <tr><td class="hl">Reliance</td><td>New hires</td><td>~190,000 (FY25)</td><td>~100,000 (FY26)</td></tr>
+            <tr><td class="hl">Xpheno</td><td>Entry-level openings (0-2 yrs)</td><td>13,000 (May 2025)</td><td>10,000 (May 2026)</td></tr>
+            <tr><td class="hl">IT sector-wide</td><td>Net headcount</td><td>~57.6 lakh (prior)</td><td>~59 lakh (FY26)</td></tr>
+          </table>
+        </div>
+        <p class="chart-note">These are the annual figures as filed and reported; the sourcing behind this page doesn't include quarterly breakdowns, so the toggle above can't show finer-grained movement within a year. Xpheno's own criteria for what counts as an "entry-level" posting beyond the 0-2-year experience bracket aren't detailed in the reporting this page draws from.</p>
+      </div>
     </div>
   </section>
 
@@ -423,12 +624,12 @@
     <p class="source-tag">Source: Anthropic, "India Country Brief: The Anthropic Economic Index," Feb 16 2026 (Nov 2025 data)</p>
 
     <div class="grid2" style="margin-top:32px;">
-      <div class="card">
+      <div class="card" id="s7-states">
         <h3 style="font-size:1.02rem; font-weight:600; font-family:var(--sans); margin-bottom:6px;">Share of national Claude.ai usage, by state</h3>
         <div id="state-bars" style="margin-top:14px;"></div>
         <p class="chart-note">Maharashtra, Tamil Nadu, Karnataka and Delhi together account for over half of India's total usage.</p>
       </div>
-      <div class="card">
+      <div class="card" id="s7-global">
         <h3 style="font-size:1.02rem; font-weight:600; font-family:var(--sans); margin-bottom:16px;">Where India stands globally</h3>
         <div class="stat-row">
           <div class="stat-tile"><div class="v"><span class="countup" data-target="5.8" data-decimals="1" data-suffix="%">0%</span></div><div class="l">of global Claude usage, 2nd only to the US at 21.6%</div></div>
@@ -443,15 +644,32 @@
     </div>
 
     <div class="grid2" style="margin-top:24px;">
-      <div class="card">
+      <div class="card" id="s7-radar">
         <h3 style="font-size:1.02rem; font-weight:600; font-family:var(--sans); margin-bottom:6px;">India vs. global average: economic primitives</h3>
         <svg id="radar-svg" viewBox="0 0 360 340" width="100%" style="margin-top:6px;"></svg>
         <div class="legend">
           <span><span class="sw" style="background:var(--accent-mark);"></span>India</span>
           <span><span class="sw" style="background:var(--neutral-mark);"></span>Global average</span>
         </div>
+        <div class="evidence-only evidence-block">
+          <span class="evidence-tag">Evidence: every primitive, exact figures</span>
+          <div class="tbl-wrap">
+            <table class="ev-table">
+              <tr><th>Metric</th><th>India</th><th>Global</th></tr>
+              <tr><td>Task speedup</td><td class="hl">15x (14.8 min for a 3.8 hr task)</td><td>12x (15.4 min for a 3.1 hr task)</td></tr>
+              <tr><td>Work-related use</td><td class="hl">51.3%</td><td>46%</td></tr>
+              <tr><td>Coursework use</td><td class="hl">20.9%</td><td>19.3%</td></tr>
+              <tr><td>Personal use</td><td class="hl">27.8%</td><td>34.7%</td></tr>
+              <tr><td>AI autonomy delegation (1-5)</td><td class="hl">3.60</td><td>3.38</td></tr>
+              <tr><td>Tasks human could do alone</td><td class="hl">84.6%</td><td>87.9%</td></tr>
+              <tr><td>Human prompt education level</td><td class="hl">12.2 yrs</td><td>N/A</td></tr>
+              <tr><td>AI response education level</td><td class="hl">12.5 yrs (top 10% globally)</td><td>N/A</td></tr>
+            </table>
+          </div>
+          <p class="chart-note">Anthropic's AI Usage Index adjusts raw usage for working-age population, which is why India ranks 2nd in absolute share but 101st per capita. This brief draws on Nov 2025 usage data, published Feb 16, 2026.</p>
+        </div>
       </div>
-      <div class="card">
+      <div class="card" id="s7-taskmix">
         <h3 style="font-size:1.02rem; font-weight:600; font-family:var(--sans); margin-bottom:16px;">Software-related share of occupational task mix</h3>
         <div id="taskmix-bars"></div>
         <p class="chart-note">India's 45.2% is the highest of any country Anthropic tracks.</p>
@@ -464,13 +682,13 @@
     <p class="eyebrow"><span class="n">08</span> The Canary Cohort</p>
     <h2 class="title">Young hires are where a labour effect would show up first.</h2>
     <div class="grid2" style="margin-top:32px; align-items:start;">
-      <div class="card">
+      <div class="card" id="s8-trend">
         <h3 style="font-size:1.02rem; font-weight:600; font-family:var(--sans); margin-bottom:6px;">Infosys: share of workforce under 30</h3>
         <svg id="infosys-trend" viewBox="0 0 380 220" width="100%" style="margin-top:10px;"></svg>
         <p class="chart-note">Lowest share in 15 years. This cohort made up roughly two-thirds of the workforce until FY18.</p>
       </div>
 
-      <div class="inset">
+      <div class="inset" id="s8-inset">
         <p class="eyebrow"><span class="n">US</span> Reference inset, not India</p>
         <p style="font-size:.94rem; color:var(--ink-muted);">Brynjolfsson, Chandar &amp; Chen use ADP payroll data (millions of workers, 730 occupations, monthly) to isolate the same cohort in the US labour market.</p>
         <div class="stat-row" style="margin-top:20px;">
@@ -479,6 +697,10 @@
         </div>
         <p class="chart-note">Effect is driven by reduced hiring, not layoffs, concentrated where AI automates rather than augments.</p>
         <p class="source-tag">Source: Brynjolfsson, Chandar, Chen, "Canaries in the Coal Mine?" (Stanford, rev. Aug 2026)</p>
+        <div class="evidence-only evidence-block">
+          <span class="evidence-tag">Evidence: automate vs. augment</span>
+          <p class="chart-note" style="font-size:.84rem;">"Automate" means the AI does the task in place of a person; "augment" means a person still does the task with AI's help. The paper's finding only shows up in automate-type roles, which is also why it shows up as fewer new hires rather than existing employees being let go: companies simply need fewer new people for tasks the software now does end to end. The two figures above (-19% and -20%) are the specific numbers reported for this page; the paper's underlying dataset covers more cohorts and occupations than are summarized here.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -489,7 +711,7 @@
     <h2 class="title">Every proxy here still stops at the edge of the formal economy.</h2>
 
     <div class="grid2" style="margin-top:32px;">
-      <div class="card iceberg-wrap">
+      <div class="card iceberg-wrap" id="s9-iceberg">
         <svg viewBox="0 0 420 320">
           <rect x="0" y="0" width="420" height="320" fill="none"/>
           <line x1="0" y1="140" x2="420" y2="140" stroke="rgba(246,236,224,.3)" stroke-dasharray="4 4"/>
@@ -504,22 +726,30 @@
         </svg>
       </div>
 
-      <div class="card">
+      <div class="card" id="s9-checklist">
         <h3 style="font-size:1.02rem; font-weight:600; font-family:var(--sans); margin-bottom:4px;">Population-wide administrative payroll data?</h3>
         <div style="margin-top:14px;">
           <div class="check-row"><span class="check-icon yes">✓</span><div><b>United States (ADP)</b><div class="chart-note" style="margin-top:2px;">Monthly, individual-level, 730 occupations</div></div></div>
           <div class="check-row"><span class="check-icon yes">✓</span><div><b>Denmark (Statistics Denmark)</b><div class="chart-note" style="margin-top:2px;">Linked to worker surveys</div></div></div>
           <div class="check-row"><span class="check-icon no">–</span><div><b>India (EPFO)</b><div class="chart-note" style="margin-top:2px;">Monthly aggregate by industry only, not individual-level</div></div></div>
         </div>
+        <div class="evidence-only evidence-block">
+          <span class="evidence-tag">Evidence: what EPFO actually publishes</span>
+          <p class="chart-note" style="font-size:.84rem;">EPFO's public releases are monthly counts of net new subscribers by industry group, at the aggregate level. There's no individual-level record and no occupation-level breakdown, so it's impossible to isolate a specific job or worker the way ADP or Statistics Denmark can. That gap is structural, not a matter of EPFO publishing less often.</p>
+        </div>
       </div>
     </div>
 
-    <div class="card" style="margin-top:24px;">
+    <div class="card" id="s9-humlum" style="margin-top:24px;">
       <div class="quote-card">
         <q>Using 25,000 workers linked to full administrative wage and hours records, we find precise null effects on earnings and hours two years post-ChatGPT (ruling out effects larger than 2%) despite widespread adoption. What moved instead was task composition and occupational mobility.</q>
         <div class="cite">Humlum &amp; Vestergaard, "Still Waters, Rapid Currents" (NBER / Rockwool, 2025–26)</div>
       </div>
       <div class="lesson"><b>Lesson for this page</b>Don't overclaim a clean wage effect. Even in a far more data-rich country than India, one hasn't been proven yet.</div>
+      <div class="evidence-only evidence-block">
+        <span class="evidence-tag">Evidence: the study design</span>
+        <p class="chart-note" style="font-size:.84rem;">25,000 Danish workers, linked to Denmark's full administrative wage and hours records (not a survey), tracked for two years after ChatGPT's release. The null result rules out effects larger than plus or minus 2% on earnings and hours specifically; it doesn't rule out smaller effects, and it doesn't cover what happened to task composition or which occupations people moved into, which is exactly what the authors found moved instead.</p>
+      </div>
     </div>
   </section>
 
@@ -527,14 +757,14 @@
   <section class="sec wrap" id="sec-10" data-title="The Live Index">
     <p class="eyebrow"><span class="n">10</span> The Live Index</p>
     <h2 class="title">What a real-time index could look like, once the pieces above exist.</h2>
-    <p class="lede">Three synthetic sub-signals, weighted by you. This is a demonstration of the <em>method</em>, not a real, published index.</p>
+    <p class="lede" id="s10-signals">Three synthetic sub-signals, weighted by you. This is a demonstration of the <em>method</em>, not a real, published index.</p>
 
     <div class="index-panel" style="margin-top:28px;">
       <span class="badge warn synth-tag">Synthetic demo data</span>
       <h3 style="font-size:1.02rem; font-weight:600; font-family:var(--sans);">Illustrative AI Labour-Impact Index for India</h3>
       <svg id="index-svg" viewBox="0 0 640 220" width="100%" style="margin-top:10px;"></svg>
 
-      <div class="sliders">
+      <div class="sliders" id="s10-sliders">
         <div class="slider-block">
           <div class="sl"><span>Wage signal</span><b id="w-wage">33%</b></div>
           <input type="range" id="slider-wage" min="0" max="100" value="33">
@@ -548,6 +778,11 @@
           <input type="range" id="slider-usage" min="0" max="100" value="34">
         </div>
       </div>
+
+      <div class="evidence-only evidence-block">
+        <span class="evidence-tag">Evidence: how this demo is built</span>
+        <p class="chart-note" style="font-size:.84rem;">No real composite index like this exists yet to point to; this is what the method would produce, not a real published series. Each of the three lines is a synthetic 24-month path: the wage signal drifts down gently, the hiring signal declines faster and accelerates in its final months, and the usage signal rises steeply, chosen to be visibly different shapes so the sliders actually change what you see. The line on the chart is just the weighted average of those three at whatever weights you've set.</p>
+      </div>
     </div>
   </section>
 
@@ -555,7 +790,7 @@
   <section class="sec wrap" id="sec-11" data-title="The Verdict">
     <p class="eyebrow"><span class="n">11</span> The Verdict</p>
     <h2 class="title" style="max-width:20ch; font-size:clamp(1.8rem,4vw,2.8rem);">The method works. The data infrastructure doesn't, yet.</h2>
-    <ul class="verdict-list">
+    <ul class="verdict-list" id="s11-bullets">
       <li><span><b>The method works in principle:</b> Copestake et al. already show job-ad-based tracking detects real AI labour effects inside India.</span></li>
       <li><span><b>The signal is live and visible right now:</b> Anthropic's own India data plus TCS, Infosys and Xpheno numbers, concentrated in IT and urban India.</span></li>
       <li><span><b>But India lacks payroll-level data infrastructure:</b> unlike the US and Denmark, so any index has to stay indirect and proxy-based, and wage-effect claims should stay cautious.</span></li>
@@ -576,16 +811,19 @@
   </ol>
   <p class="credit">Built as a working spec. Data points sourced as cited above; sections 5A, 6A and 10 are explicitly illustrative or synthetic and are labeled as such throughout.</p>
 </footer>
+</div><!-- /main-col -->
+</div><!-- /layout -->
 
 <script>
 (function(){
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var COL = { accent:'#e8622c', neutral:'#2e7cb8', teal:'#1f9c82', terra:'#c1503a', faint:'#a4886f' };
 
-  /* ---------- scroll progress + section counter ---------- */
+  /* ---------- scroll progress + section counter + sidenav active state ---------- */
   var fill = document.getElementById('progress-fill');
   var counter = document.getElementById('section-counter');
   var sections = Array.prototype.slice.call(document.querySelectorAll('.sec[data-title]'));
+  var navTops = Array.prototype.slice.call(document.querySelectorAll('.nav-top'));
   function onScroll(){
     var h = document.documentElement;
     var max = h.scrollHeight - h.clientHeight;
@@ -597,9 +835,52 @@
       if (r.top < window.innerHeight * 0.5) current = i + 1;
     }
     counter.textContent = String(current).padStart(2,'0') + ' / ' + sections.length;
+    var activeId = sections[current - 1] ? sections[current - 1].id : null;
+    navTops.forEach(function(li){
+      li.classList.toggle('is-active', li.getAttribute('data-target') === activeId);
+    });
   }
   document.addEventListener('scroll', onScroll, { passive:true });
   onScroll();
+
+  /* ---------- mobile contents drawer ---------- */
+  (function(){
+    var sidenav = document.getElementById('sidenav');
+    var trigger = document.getElementById('nav-trigger');
+    var closeBtn = document.getElementById('nav-close');
+    function openDrawer(){ sidenav.classList.add('drawer-open'); trigger.setAttribute('aria-expanded', 'true'); }
+    function closeDrawer(){ sidenav.classList.remove('drawer-open'); trigger.setAttribute('aria-expanded', 'false'); }
+    trigger.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    sidenav.addEventListener('click', function(e){
+      if (e.target.tagName === 'A') closeDrawer();
+    });
+  })();
+
+  /* ---------- story / evidence toggle ---------- */
+  (function(){
+    var toggle = document.getElementById('mode-toggle');
+    toggle.addEventListener('click', function(e){
+      var btn = e.target.closest('button[data-mode]');
+      if (!btn) return;
+      var mode = btn.getAttribute('data-mode');
+      Array.prototype.forEach.call(toggle.querySelectorAll('button'), function(b){
+        b.classList.toggle('is-active', b === btn);
+      });
+      document.body.classList.toggle('mode-evidence', mode === 'evidence');
+      document.querySelectorAll('details.appendix').forEach(function(d){
+        d.open = mode === 'evidence';
+      });
+    });
+  })();
+
+  /* ---------- company sub-links: jump + select ---------- */
+  document.querySelectorAll('a[data-company]').forEach(function(a){
+    a.addEventListener('click', function(){
+      var key = a.getAttribute('data-company');
+      if (typeof selectCompany === 'function') selectCompany(key);
+    });
+  });
 
   /* ---------- hero rotating stat ---------- */
   var heroStats = [
@@ -812,6 +1093,13 @@
       '<div><div class="cbar-label" style="margin-bottom:8px;">'+c.metric+'</div><p class="company-note">'+c.note+'</p></div>';
   }
   renderCompany('tcs');
+  function selectCompany(key){
+    if (!companies[key]) return;
+    Array.prototype.forEach.call(toggleWrap.children, function(el){
+      el.className = 'btn' + (el.textContent === companies[key].name ? ' is-active' : '');
+    });
+    renderCompany(key);
+  }
 
   /* ---------- Section 6: state bars ---------- */
   (function(){

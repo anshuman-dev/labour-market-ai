@@ -16,6 +16,98 @@ For handoff to Claude Code. This is a spec, not final copy. Every section lists 
 
 ---
 
+## Site-wide navigation: left sidebar with real sub-items
+
+**Reference model:** Skimmaxxer's paper-viewer left nav; instead of listing chapter titles only, it lists the actual sub-claims inside each chapter, numbered and clickable, so a visitor knows exactly what's coming before they scroll. Build the same thing here. This is cheap to build because the sub-items already exist as content inside the brief below; this section just organizes them into nav form.
+
+**Structure:** sidebar stays visible/sticky on desktop, collapses to a top drawer on mobile. Top-level items are the sections (renumbered so 3.5 is its own numbered section). Each top-level item expands to show its sub-items below it. Clicking a sub-item scrolls/jumps directly to that specific claim within the section, not just the top of the section.
+
+**Full sub-item list, section by section:**
+
+**01, The Hypothesis**
+- The question we're asking
+- The stat that opens it
+
+**02, The Original Method**
+- How Cavallo built the price index
+- The Argentina catch
+- Why this is our inspiration
+
+**03, Our Reframing**
+- The original mapping: prices to inflation
+- Our mapping: labor signals to AI impact index
+
+**04, The Methodology**
+- Step 1: fixing the occupation crosswalk
+- Step 2: building the job-ad signal
+- Step 3: making sure it's actually AI, not something else
+- Step 4: checking the index against official data
+
+**05, The Static Picture**
+- The exposure quadrant, explained
+- India vs. five other countries
+- 70% of Indian workers below the 40th percentile
+- The gender flip
+- Why the underlying data is stale (2018-19, pre-ChatGPT)
+
+**06, The Dynamic Evidence**
+- Copestake's job-ad findings
+- TCS's headcount cut
+- Infosys's under-30 share
+- Xpheno's entry-level hiring drop
+- Reliance's hiring pullback
+- The sector-wide picture: compositional shift, not collapse
+
+**07, The Live Pulse (Anthropic India Brief)**
+- Usage by state, mapped
+- Where India stands globally
+- India vs. global average: the five primitives
+- Software's share of India's task mix
+
+**08, The Canary Cohort**
+- Infosys's under-30 trend, year by year
+- The US reference: Brynjolfsson's ADP findings
+
+**09, What We Can't See**
+- The iceberg: visible formal economy vs. invisible informal economy
+- The data-infrastructure checklist (US, Denmark, India)
+- Humlum & Vestergaard's null result, and why it matters here
+
+**10, The Live Index**
+- The three signals, explained
+- Try it: reweight the sliders
+
+**11, The Verdict**
+- The three-bullet closing case
+
+---
+
+## Story / Evidence toggle: applies to the whole page
+
+**Reference model:** Skimmaxxer's "Interactive Wiki" vs. "Annotated Paper" toggle. We don't have one underlying paper to annotate the way they do; we've stitched together six different sources, so a literal copy of their toggle doesn't map cleanly. The version that fits our situation: **"The Story"** (default, the scrollytelling narrative as already specced above) vs. **"The Evidence"** (same section order, but every section expands in place to show its full underlying detail: data tables, exact figures, exact quotes, methodology notes). This generalizes the pattern already built once for the methodology section (visible four steps + expandable deep-dive) to every section on the page, instead of leaving it as a one-off.
+
+**Toggle placement:** top of page, next to or below the title, persistent as the user scrolls, same position Skimmaxxer uses.
+
+**What "The Evidence" mode unlocks, section by section:**
+
+**04, The Methodology:** the deep-dive content already specced: full NCO/ISCO/O*NET crosswalk table for the top 30-40 occupations, full regression specification (functional form, fixed effects, clustering, the parallel-trends plot), classifier technical design (embedding model, seed-term list, precision/recall validation, handling of Hindi/regional-language postings), the sensitivity check against Eloundou et al.'s exposure scores, scraping architecture and ToS notes, sample-size/power discussion.
+
+**05, The Static Picture:** the full six-country data table with exact percentages (not just the illustrative quadrant placement shown in Story mode): India, Brazil, Colombia, South Africa, US, UK, all four exposure/complementarity buckets per country where available. The paper's own stated limitation, quoted directly: it describes itself as "static and in partial equilibrium, providing a snapshot view of exposure in one year." A note on the 3-digit vs. 4-digit ISCO coding difference and what precision is lost because of it.
+
+**06, The Dynamic Evidence:** Copestake's actual econometric design in plain terms (event-study and shift-share approach, what they're comparing against what), the exact company filing numbers rather than just the toggle, and a note on what counts as an "entry-level" posting in Xpheno's count where that's known.
+
+**07, The Live Pulse:** the complete metric table already specced (every "economic primitive," not just the ones charted in Story mode), plus a short note on how Anthropic's AI Usage Index is calculated (usage adjusted for working-age population) and the brief's underlying sample period (Nov 2025 data, published Feb 2026).
+
+**08, The Canary Cohort:** the full Brynjolfsson stats table (the -19% and -20% figures), the "automate vs. augment" distinction explained in more depth, and the note that the effect is driven by reduced hiring rather than layoffs.
+
+**09, What We Can't See:** the full Humlum & Vestergaard quote already in the brief, plus their study design in more depth (25,000 workers, linked to Denmark's administrative wage/hours records, two-year post-ChatGPT window, the plus-or-minus 2% bound on ruled-out effects), and a more detailed version of the EPFO limitation (monthly, industry-level aggregates only, no individual-level or occupation-level granularity).
+
+**10, The Live Index:** an explanation of how the synthetic demo data was generated and exactly why it's synthetic (no real composite index like this currently exists to point to; this is a demonstration of what the method would produce, not a real published series).
+
+**Sections 01, 02, 03, 11:** no meaningful "Evidence" expansion needed; these are framing/narrative sections, not data sections. Toggle leaves them unchanged in both modes, and the expand affordance is omitted entirely for these four.
+
+---
+
 ## Section 1: Hero
 **Fix note:** the current headline ("Prices moved first. Jobs move next.") states the hypothesis as a settled fact. That contradicts the hedged, honest tone the page earns later (sections 8 and 10). The hero needs to pose the question, not announce the answer.
 
@@ -60,10 +152,10 @@ For handoff to Claude Code. This is a spec, not final copy. Every section lists 
 
 ---
 
-## Section 3.5: How we'd actually build this (methodology)
+## Section 4: How we'd actually build this (methodology)
 **Placement:** immediately after Section 3 (reframing), before the Pizzinelli critique. Visible on the main page in full; this is not a teaser, it needs to stand on its own as a real methodology. A separate, deeper "how we'd build this" panel holds the technical appendix (spec below).
 
-**Fix note on the current copy:** it reads as AI-generated: parallel-structure triplets ("fixing the blind spots, building the live signal, proving it's causal, checking it against reality"), "not X, but Y" constructions ("proving causation, not coincidence"), and the same "the way the Billion Prices Project led CPI" comparison repeated near-identically in sections 2, 3, and 4. Rewritten below in plainer, one-time language.
+**Fix note on the earlier draft copy:** it read as AI-generated: parallel-structure triplets ("fixing the blind spots, building the live signal, proving it's causal, checking it against reality"), "not X, but Y" constructions ("proving causation, not coincidence"), and the same "the way the Billion Prices Project led CPI" comparison repeated near-identically across sections. Rewritten below in plainer, one-time language.
 
 ### Visible on main page: four concrete steps
 
@@ -93,7 +185,7 @@ Content that would drown the main narrative if inlined, but should exist one cli
 
 ---
 
-## Section 4: The static picture (critique of Pizzinelli et al., IMF WP 23/216)
+## Section 5: The static picture (critique of Pizzinelli et al., IMF WP 23/216)
 **Source:** Pizzinelli, Panton, Tavares, Cazzaniga & Li (2023), IMF Working Paper 23/216.
 
 **Chart A, 2x2 quadrant scatter:** AI Exposure (AIOE) vs. Complementarity (θ), India occupations plotted, median reference lines.
@@ -116,7 +208,7 @@ Content that would drown the main narrative if inlined, but should exist one cli
 
 ---
 
-## Section 5: The dynamic evidence
+## Section 6: The dynamic evidence
 **Source A:** Copestake, Marczinek, Pople & Stapleton, "AI and Services-Led Growth: Evidence from Indian Job Adverts" (2023, updated 2024-25). Near-exponential AI-skill demand growth in Indian job postings since 2016, concentrated in IT/finance/professional services; negative effect on non-AI postings and top-percentile wages, concentrated in high-skilled managerial/professional, non-routine roles.
 *(Chart: line, "AI-skill demand share in job postings, 2016-2021," reconstructed at illustrative shape from paper's reported trend; flag as approximate/illustrative pending access to raw series.)*
 
@@ -133,7 +225,7 @@ Content that would drown the main narrative if inlined, but should exist one cli
 
 ---
 
-## Section 6: Anthropic India Brief (live pulse)
+## Section 7: Anthropic India Brief (live pulse)
 **Source:** Anthropic, "India Country Brief: The Anthropic Economic Index" (Feb 16, 2026), based on Nov 2025 data.
 
 **Map, India choropleth, share of national Claude.ai usage by state:**
@@ -165,14 +257,14 @@ Content that would drown the main narrative if inlined, but should exist one cli
 
 ---
 
-## Section 7: The "canary" cohort
+## Section 8: The "canary" cohort
 **India data:** Infosys under-30 workforce share: two-thirds (until FY18) → 53% (FY25) → 50.7% (FY26, lowest in 15 years). Plot as single annotated trend line.
 
 **US reference inset (clearly labeled as US, not India):** Brynjolfsson, Chandar & Chen, "Canaries in the Coal Mine?" (Stanford, rev. Aug 2026), using ADP payroll data (millions of workers, 730 occupations, monthly). Employment for 22-25-year-olds in AI-exposed occupations ~19% below counterfactual as of mid-2026; effect driven by reduced hiring, not layoffs; concentrated in occupations where AI *automates* rather than *augments*. Software developers age 22-25 specifically down ~20% from Oct-2022 peak to July 2025.
 
 ---
 
-## Section 8: What we can't see (honest limitations)
+## Section 9: What we can't see (honest limitations)
 **Visual, iceberg diagram:** visible tip = formal, urban, English-speaking workforce covered by our proxies (job portals, EPFO, listed-company disclosures); submerged mass = India's large informal workforce, largely invisible to all of these sources.
 
 **Checklist, data infrastructure gap:**
@@ -186,13 +278,13 @@ Content that would drown the main narrative if inlined, but should exist one cli
 
 ---
 
-## Section 9: Our proposed live index (interactive payoff)
+## Section 10: Our proposed live index (interactive payoff)
 **Visual:** mock dashboard, one composite line ("Illustrative AI Labor Impact Index for India") built from three sub-signals.
 **Interaction:** three sliders (Wage signal / Hiring signal / Usage signal weight) that reshape the composite line live when adjusted. Purely illustrative/synthetic data; label clearly as a demo of the *method*, not a real published index.
 
 ---
 
-## Section 10: Verdict
+## Section 11: Verdict
 **Closing card, plain text, 2-3 bullets:**
 - The method works in principle: Copestake et al. already proved job-ad-based tracking detects real AI labor effects in India.
 - Anthropic's own India data + TCS/Infosys/Xpheno numbers show the signal is live and visible right now, concentrated in IT/urban India.
