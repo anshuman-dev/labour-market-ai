@@ -16,6 +16,7 @@
     --serif:'Fraunces',Georgia,'Times New Roman',serif;
     --sans:'IBM Plex Sans',-apple-system,'Segoe UI',sans-serif;
     --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Consolas,monospace;
+    --topbar-h:56px;
     color-scheme: dark;
   }
   *{box-sizing:border-box;}
@@ -229,7 +230,7 @@
   }
   @media (min-width:1400px){
     .sidenav, .sidenav.drawer-open{
-      display:block; position:sticky; inset:auto; top:0; height:100vh; overflow-y:auto;
+      display:block; position:sticky; inset:auto; top:var(--topbar-h); height:calc(100vh - var(--topbar-h)); overflow-y:auto;
       width:266px; flex:none; background:transparent; border-right:1px solid var(--line);
       padding:24px 14px 24px 24px;
     }
@@ -266,6 +267,23 @@
   .ev-table th, .ev-table td{ padding:8px 10px; }
   .ev-quote{ font-family:var(--serif); font-style:italic; font-size:.98rem; color:var(--ink); border-left:2px solid var(--neutral-mark); padding-left:14px; margin:12px 0; }
 </style>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <button class="nav-trigger" id="nav-trigger" aria-label="Open contents" aria-expanded="false">&#9776; <span class="nav-trigger-label">Contents</span></button>
+      <span class="wordmark"><b>billion</b>·jobs<span class="dot">.</span></span>
+    </div>
+    <span class="topbar-meta">
+      <span class="mode-toggle" id="mode-toggle">
+        <button type="button" class="is-active" data-mode="story">Story</button>
+        <button type="button" data-mode="evidence">Evidence</button>
+      </span>
+      <span id="section-counter">00 / 11</span>
+    </span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+</header>
 
 <div class="layout">
 <nav class="sidenav" id="sidenav">
@@ -366,23 +384,6 @@
   </ol>
 </nav>
 <div class="main-col">
-<header class="topbar">
-  <div class="topbar-inner">
-    <div style="display:flex; align-items:center; gap:14px;">
-      <button class="nav-trigger" id="nav-trigger" aria-label="Open contents" aria-expanded="false">&#9776; <span class="nav-trigger-label">Contents</span></button>
-      <span class="wordmark"><b>billion</b>·jobs<span class="dot">.</span></span>
-    </div>
-    <span class="topbar-meta">
-      <span class="mode-toggle" id="mode-toggle">
-        <button type="button" class="is-active" data-mode="story">Story</button>
-        <button type="button" data-mode="evidence">Evidence</button>
-      </span>
-      <span id="section-counter">00 / 11</span>
-    </span>
-  </div>
-  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-</header>
-
 <main>
 
   <!-- ===================== HERO ===================== -->
@@ -818,6 +819,16 @@
 (function(){
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var COL = { accent:'#e8622c', neutral:'#2e7cb8', teal:'#1f9c82', terra:'#c1503a', faint:'#a4886f' };
+
+  /* ---------- keep the sidenav's sticky offset in sync with the real topbar height ---------- */
+  (function(){
+    var topbar = document.querySelector('.topbar');
+    if (!topbar) return;
+    function sync(){ document.documentElement.style.setProperty('--topbar-h', topbar.offsetHeight + 'px'); }
+    sync();
+    window.addEventListener('resize', sync);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+  })();
 
   /* ---------- scroll progress + section counter + sidenav active state ---------- */
   var fill = document.getElementById('progress-fill');
