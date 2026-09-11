@@ -222,8 +222,8 @@
   <!-- ===================== HERO ===================== -->
   <section class="sec hero wrap" id="sec-1" data-title="The Hypothesis">
     <p class="eyebrow"><span class="n">01</span> The Hypothesis</p>
-    <h1>Prices moved first.<br><em>Jobs move next.</em></h1>
-    <p class="lede">A decade ago, economists stopped waiting for official inflation statistics and started scraping millions of online prices themselves. This page asks whether the same bottom-up approach (high-frequency, unofficial, built from what's actually being posted online) can track AI's effect on India's labour market faster and more honestly than static, survey-based exposure maps.</p>
+    <h1>Prices moved first.<br><em>Is India's job market next?</em></h1>
+    <p class="lede">A decade ago, economists stopped waiting for official inflation numbers and started scraping millions of online prices themselves. This page asks the same kind of question about jobs: can fast, unofficial, ground-up data (job ads, hiring disclosures, AI usage numbers) show us what AI is doing to India's labour market before the slow, official surveys do?</p>
 
     <div class="hero-stat">
       <span class="v num" id="hero-stat-value">15×</span>
@@ -240,19 +240,25 @@
     <p class="eyebrow"><span class="n">02</span> The Original Method</p>
     <h2 class="title">What was the Billion Prices Project?</h2>
     <p class="lede">Starting in 2008, Alberto Cavallo and Roberto Rigobon scraped hundreds of millions of prices from online retailers around the world, rebuilding daily inflation estimates from the ground up: no survey, no government office, no lag. In 2011 the method caught Argentina's government publishing an official inflation rate roughly a third of what the scraped data actually showed, turning an academic side-project into one of the sharpest checks on state statistics of the decade.</p>
+    <p class="lede" style="margin-top:16px;">Prices were just the visible tip of something bigger, and even something that basic turned out to be worth double-checking against what a government was willing to admit. Official job numbers move slower than prices ever did, once a quarter or once a year, not daily, and are just as open to dispute. If a government's own numbers can lag or misstate something as measurable as prices, they're even more likely to be behind on something as new as AI.</p>
 
     <div class="card" style="margin-top:32px;">
       <div class="bpp-diagram">
         <svg id="bpp-svg" viewBox="0 0 420 160" preserveAspectRatio="xMidYMid meet"></svg>
         <span class="bpp-arrow">→</span>
         <svg viewBox="0 0 260 160" width="260" height="160" style="flex:none;">
-          <polyline id="bpp-line-path" points="10,120 50,110 90,95 130,80 170,58 210,40 250,22" fill="none" stroke="#ff7a45" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="10" y1="132" x2="250" y2="132" stroke="rgba(246,236,224,.25)"/>
+          <path d="M10,130 L60,120 L110,112 L140,108 L170,104 L210,100 L250,96" fill="none" stroke="#2e7cb8" stroke-width="2" stroke-linecap="round"/>
+          <path id="bpp-line-path" d="M10,130 L60,120 L110,112 L140,106 L170,88 L210,64 L250,40" fill="none" stroke="#ff7a45" stroke-width="2.5" stroke-linecap="round"/>
           <text x="10" y="145" class="axis-label">2008</text>
-          <text x="215" y="145" class="axis-label">2024</text>
-          <text x="12" y="18" class="axis-label" fill="#c9af9c" font-size="10">Daily price index</text>
+          <text x="225" y="145" class="axis-label">2013</text>
+          <line x1="12" y1="15" x2="26" y2="15" stroke="#2e7cb8" stroke-width="2"/>
+          <text x="31" y="18" class="axis-label" fill="#8fbede" font-size="9">Official Argentina CPI</text>
+          <line x1="12" y1="27" x2="26" y2="27" stroke="#ff7a45" stroke-width="2"/>
+          <text x="31" y="30" class="axis-label" fill="#ff7a45" font-size="9">BPP scraped price index</text>
         </svg>
       </div>
-      <p class="chart-note">Millions of scraped prices, aggregated daily, form a continuous index. This page applies the same basic shape to job postings, hiring disclosures and AI-usage data instead of prices.</p>
+      <p class="chart-note">Illustrative: the two track together until around 2010, then split, the scraped index running well above the official rate. Not the exact published series, just the shape of the known divergence.</p>
     </div>
   </section>
 
@@ -260,7 +266,8 @@
   <section class="sec wrap" id="sec-3" data-title="Our Reframing">
     <p class="eyebrow"><span class="n">03</span> Our Reframing</p>
     <h2 class="title">The same method, aimed at labour instead of prices.</h2>
-    <div class="map3" style="margin-top:32px;">
+    <p class="lede">The mechanism doesn't change: only what's being counted does.</p>
+    <div class="map3" style="margin-top:24px;">
       <div class="map-card">
         <div class="h">Original (Cavallo)</div>
         <div class="map-row">Millions of scraped online prices</div>
@@ -281,36 +288,36 @@
   <section class="sec wrap" id="sec-4" data-title="The Methodology">
     <p class="eyebrow"><span class="n">04</span> The Methodology</p>
     <h2 class="title" style="max-width:22ch;">Four steps between a hypothesis and a working index.</h2>
-    <p class="lede">Fixing the data's blind spots, building the live signal, proving it's causal, and checking it against reality. This is the part most trackers skip past.</p>
+    <p class="lede">This is normally the part that gets waved away with a slide that says "we'll build an index." Here's what we'd actually have to do.</p>
 
     <div class="method-steps">
       <div class="method-step">
         <div class="stepnum">1</div>
         <div>
-          <h3>Fixing the occupation crosswalk</h3>
-          <p>Exposure scores like AIOE are built on US O*NET task data. Pizzinelli et al. mapped these onto India via ISCO-08 codes, but that assumes a software developer in the US and in India involve the same tasks, which is shaky given India's IT sector is disproportionately delivery and execution heavy (the offshore services model) rather than the design and architecture heavy mix implied by US task data.</p>
-          <div class="method-fix"><b>Our fix</b>Use the same crosswalk as a starting point, but spot-audit a sample of matched occupations against real Indian job descriptions to check whether task content genuinely matches. Flag and adjust the likely mismatches, starting with IT services roles.</div>
+          <h3>Fix the occupation crosswalk.</h3>
+          <p>Exposure scores like AIOE were built on US task data. Pizzinelli et al. mapped them onto India using occupation codes, but that assumes a software developer's job looks the same in Bangalore as it does in Seattle, a stretch, since Indian IT work leans much more toward delivery and execution than the design-heavy roles the US data was built on.</p>
+          <div class="method-fix"><b>Our fix</b>Keep their crosswalk as a starting point, but spot-check a sample of matched occupations against real Indian job listings, and adjust wherever the task content clearly doesn't line up. IT services roles first.</div>
         </div>
       </div>
       <div class="method-step">
         <div class="stepnum">2</div>
         <div>
-          <h3>Building the job-ad signal</h3>
-          <p>Pull postings monthly from Naukri, LinkedIn India and Indeed India. Tag each posting by occupation, matching title and description to NCO codes. Classify AI-skill demand with a keyword-seeded, embedding-expanded classifier: seed terms like "GenAI," "LLM," "prompt engineering" and "Copilot," expanded via semantic similarity so postings describing AI work without the exact keywords aren't missed. Track the share of AI-tagged postings and listed salary bands, per occupation, per month.</p>
+          <h3>Build the job-ad signal.</h3>
+          <p>Pull postings every month from Naukri, LinkedIn India and Indeed India. Match each one to an occupation code by title and description. Then flag which ones mention AI skills, starting from obvious terms like "GenAI" or "prompt engineering," but expanded so we also catch postings that describe the same work without using those exact words. Track how that share moves, month by month, occupation by occupation, along with whatever salary ranges are listed.</p>
         </div>
       </div>
       <div class="method-step">
         <div class="stepnum">3</div>
         <div>
-          <h3>Proving causation, not coincidence</h3>
-          <p>A difference-in-differences design: occupation &times; month as the unit, AI exposure score as treatment intensity, event time anchored to GenAI's India adoption inflection around late 2022 into 2023. Outcomes tracked: posting growth, wage growth, hiring volume. The critical check is that exposed and non-exposed occupations show parallel trends before 2023, or the result is confounded. A geography split (IT-hub states vs. non-IT states) adds a triple-difference check, specifically to rule out the 2023-24 global IT-spending slowdown as the real driver instead of AI.</p>
+          <h3>Make sure it's actually AI.</h3>
+          <p>We'd run this as a comparison between occupations more exposed to AI and less exposed, before and after GenAI adoption picked up in India, roughly late 2022 into 2023. But this only means anything if exposed and non-exposed occupations were tracking together <em>before</em> that point. If they weren't already moving in step, we can't credibly blame AI for what happens after. We'd also split the data by state, IT hubs vs. everywhere else, mainly to make sure we're not just picking up the 2023-24 global IT-spending slowdown and mislabeling it as an AI effect.</p>
         </div>
       </div>
       <div class="method-step">
         <div class="stepnum">4</div>
         <div>
-          <h3>Checking if it's actually working</h3>
-          <p>Compare the monthly index against PLFS (quarterly) and CMIE (monthly) official employment data. This is the direct test of the whole hypothesis: does the faster index lead the slow official numbers, the way the Billion Prices Project led CPI, especially around known inflection points like the 2025-26 IT hiring slowdown.</p>
+          <h3>Check if it's actually working.</h3>
+          <p>Compare our monthly numbers against the official ones, PLFS every quarter, CMIE every month, and see if ours moves first. That's really the whole bet here: a faster index built from job ads and hiring data should show cracks before the slow official surveys catch up, the way scraped prices once got ahead of a government's own inflation numbers. The 2025-26 IT hiring slowdown is a real, recent moment we could actually test that against.</p>
         </div>
       </div>
     </div>

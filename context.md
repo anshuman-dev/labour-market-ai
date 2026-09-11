@@ -7,9 +7,25 @@ For handoff to Claude Code. This is a spec, not final copy. Every section lists 
 **Hypothesis (method-level):** A high-frequency, bottom-up approach (the same logic Cavallo used for prices) can track AI's labor effect in India faster and more honestly than static, survey-based exposure maps.
 **Structure:** scrollytelling, single page, sticky scroll-progress nav, hover tooltips on every chart, expandable "sources" footnote per section.
 
+**Voice/tone guardrail, apply across every section, not just the ones flagged below.** V1 copy reads AI-generated in a few consistent ways worth hunting for everywhere:
+- Parallel-structure triplets/quadruplets ("fixing X, building Y, proving Z, checking W"). Say it as a person would, once, plainly.
+- "Not X, but Y" or "not just X, but Y" constructions ("proving causation, not coincidence"). A dead giveaway pattern, rewrite as a direct statement.
+- The same comparison repeated near-identically across multiple sections (the "the way BPP led CPI" line currently shows up three times). Say it once, where it matters most, and vary or drop it elsewhere.
+- Over-precise connector phrases ("specifically to rule out," "the direct test of the whole hypothesis"). Replace with how someone would actually explain it out loud.
+- A hypothesis stated as a settled conclusion instead of a live question (the current hero headline). The page's honesty (sections 8 and 10) only works if the opening doesn't already assume the answer.
+
 ---
 
 ## Section 1: Hero
+**Fix note:** the current headline ("Prices moved first. Jobs move next.") states the hypothesis as a settled fact. That contradicts the hedged, honest tone the page earns later (sections 8 and 10). The hero needs to pose the question, not announce the answer.
+
+**Revised headline (pick one):**
+- "Prices moved first. **Is India's job market next?**"
+- Or, drop the parallelism entirely: "Can we watch AI change India's job market before the government's job data does?"
+
+**Revised body copy (replace current paragraph):**
+"A decade ago, economists stopped waiting for official inflation numbers and started scraping millions of online prices themselves. This page asks the same kind of question about jobs: can fast, unofficial, ground-up data (job ads, hiring disclosures, AI usage numbers) show us what AI is doing to India's labour market before the slow, official surveys do?"
+
 **Visual:** animated counter on load.
 **Candidate stats (pick one or rotate):**
 - "15x, how much faster Indian Claude users complete complex tasks with AI, vs. 12x globally" (Anthropic India Brief, Feb 2026)
@@ -18,12 +34,23 @@ For handoff to Claude Code. This is a spec, not final copy. Every section lists 
 
 ---
 
-## Section 2: What was the Billion Prices Project
-**Visual:** simple annotated diagram (scraped price dots → index line), callout on Argentina CPI manipulation catch. No hard data needed here; explainer only.
+## Section 2: What was the Billion Prices Project (+ why it's the inspiration)
+**Fix note:** the current chart is a single smooth line trending up from 2008-2024, no axis, no units. It shows nothing; the actual story is a *divergence*, and that divergence is the whole reason this project is interesting.
+
+**Chart fix:** two lines, not one: "Official Argentina CPI" vs. "BPP scraped price index," tracking together, then splitting apart around 2010-2012, scraped index running well above the official one. Label clearly as illustrative/approximate; we don't have BPP's exact published series, just the shape of the known divergence.
+
+**Missing piece, add 2-3 sentences of "why this is our inspiration" after the history paragraph, before the chart:**
+"Prices were just the visible tip of something bigger, and even something that basic turned out to be worth double-checking against what a government was willing to admit. Official job numbers move slower than prices ever did (once a quarter or once a year, not daily) and are just as open to dispute. If a government's own numbers can lag or misstate something as measurable as prices, they're even more likely to be behind on something as new as AI."
+
+**Visual:** the two-line divergence chart above the "why this is our inspiration" text, callout on the Argentina catch already present.
 
 ---
 
 ## Section 3: Our reframed hypothesis
+**Fix note:** this section currently jumps straight into the mapping table with no connecting sentence; after reading section 2's history, a reader lands here without being told why prices and jobs should behave the same way. Add one line before the table:
+
+**Add this line before the table:** "The mechanism doesn't change, only what's being counted does."
+
 **Visual:** side-by-side mapping card.
 | Original (Cavallo) | Ours |
 |---|---|
@@ -36,20 +63,24 @@ For handoff to Claude Code. This is a spec, not final copy. Every section lists 
 ## Section 3.5: How we'd actually build this (methodology)
 **Placement:** immediately after Section 3 (reframing), before the Pizzinelli critique. Visible on the main page in full; this is not a teaser, it needs to stand on its own as a real methodology. A separate, deeper "how we'd build this" panel holds the technical appendix (spec below).
 
+**Fix note on the current copy:** it reads as AI-generated: parallel-structure triplets ("fixing the blind spots, building the live signal, proving it's causal, checking it against reality"), "not X, but Y" constructions ("proving causation, not coincidence"), and the same "the way the Billion Prices Project led CPI" comparison repeated near-identically in sections 2, 3, and 4. Rewritten below in plainer, one-time language.
+
 ### Visible on main page: four concrete steps
 
-**1. Fixing the occupation crosswalk.**
-Exposure scores like AIOE are built on US O*NET task data. Pizzinelli et al. mapped these onto India via ISCO-08 codes, but this assumes a "software developer" in the US and in India involve the same tasks, which is shaky given India's IT sector is disproportionately delivery/execution-heavy (offshore services model) rather than the design/architecture-heavy mix implied by US task data.
-**Our fix:** use the same crosswalk as a starting point, but spot-audit a sample of matched occupations against real Indian job descriptions to check whether task content genuinely matches; flag and adjust the likely mismatches, starting with IT services roles.
+**Section intro:** "This is normally the part that gets waved away with a slide that says 'we'll build an index.' Here's what we'd actually have to do."
 
-**2. Building the job-ad signal.**
-Pull postings monthly from Naukri, LinkedIn India, and Indeed India. Tag each posting by occupation (title + description matched to NCO codes). Classify AI-skill demand using a keyword-seeded, embedding-expanded classifier; seed terms like "GenAI," "LLM," "prompt engineering," "Copilot," expanded via semantic similarity so postings describing AI work without our exact keywords aren't missed. Track: share of AI-tagged postings and listed salary bands, per occupation, per month.
+**1. Fix the occupation crosswalk.**
+Exposure scores like AIOE were built on US task data. Pizzinelli et al. mapped them onto India using occupation codes, but that assumes a software developer's job looks the same in Bangalore as it does in Seattle, a stretch, since Indian IT work leans much more toward delivery and execution than the design-heavy roles the US data was built on.
+*Our fix: keep their crosswalk as a starting point, but spot-check a sample of matched occupations against real Indian job listings, and adjust wherever the task content clearly doesn't line up, IT services roles first.*
 
-**3. Proving causation, not coincidence.**
-Difference-in-differences design: occupation × month as the unit, AI exposure score as treatment intensity, event time anchored to GenAI's India adoption inflection (~late 2022/2023). Outcomes: posting growth, wage growth, hiring volume. Critical check: exposed and non-exposed occupations must show parallel trends *before* 2023, otherwise the result is confounded. Add a geography split (IT-hub states vs. non-IT states) as a triple-difference check, specifically to rule out the 2023-24 global IT-spending slowdown as the real driver instead of AI.
+**2. Build the job-ad signal.**
+Pull postings every month from Naukri, LinkedIn India, and Indeed India. Match each one to an occupation code by title and description. Then flag which ones mention AI skills, starting from obvious terms like "GenAI" or "prompt engineering," but expanded so we also catch postings that describe the same work without using those exact words. Track how that share moves, month by month, occupation by occupation, along with whatever salary ranges are listed.
 
-**4. Checking if it's actually working.**
-Compare the monthly index against PLFS (quarterly) and CMIE (monthly) official employment data. The direct test of the whole hypothesis: does the faster index *lead* the slow official numbers, the way BPP led CPI, especially around known inflection points like the 2025-26 IT hiring slowdown.
+**3. Make sure it's actually AI.**
+We'd run this as a comparison between occupations more exposed to AI and less exposed, before and after GenAI adoption picked up in India, roughly late 2022 into 2023. But this only means anything if exposed and non-exposed occupations were tracking together *before* that point. If they weren't already moving in step, we can't credibly blame AI for what happens after. We'd also split the data by state, IT hubs vs. everywhere else, mainly to make sure we're not just picking up the 2023-24 global IT-spending slowdown and mislabeling it as an AI effect.
+
+**4. Check if it's actually working.**
+Compare our monthly numbers against the official ones, PLFS every quarter, CMIE every month, and see if ours moves first. That's really the whole bet here: a faster index built from job ads and hiring data should show cracks before the slow official surveys catch up, the way scraped prices once got ahead of a government's own inflation numbers. The 2025-26 IT hiring slowdown is a real, recent moment we could actually test that against.
 
 ### Expandable panel / linked deep-dive page: spec
 Content that would drown the main narrative if inlined, but should exist one click away:
